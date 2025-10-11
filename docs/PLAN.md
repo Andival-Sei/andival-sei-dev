@@ -26,11 +26,11 @@
 ### 1.3 Настройка роутинга
 
 - [x] Обновить layout.tsx для подключения Header и Footer
-- [ ] Создать структуру страниц App Router
-  - [ ] `/projects` - страница всех проектов (`src/app/projects/page.tsx`)
-  - [ ] `/about` - страница "Обо мне" (`src/app/about/page.tsx`)
-  - [ ] `/lab` - страница лаборатории (`src/app/lab/page.tsx`)
-  - [ ] `/contact` - страница контактов (`src/app/contact/page.tsx`)
+- [x] Создать структуру страниц App Router
+  - [x] `/projects` - страница всех проектов (`src/app/projects/page.tsx`)
+  - [x] `/about` - страница "Обо мне" (`src/app/about/page.tsx`)
+  - [x] `/lab` - страница лаборатории (`src/app/lab/page.tsx`)
+  - [x] `/contact` - страница контактов (`src/app/contact/page.tsx`)
 
 ---
 
