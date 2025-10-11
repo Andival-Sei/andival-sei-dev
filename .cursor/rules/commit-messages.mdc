@@ -1,0 +1,166 @@
+---
+description: Правила написания git commit messages для Cursor AI
+tags: [git, commits, conventional-commits, russian]
+---
+
+# Git Commit Messages Rules
+
+## CRITICAL RULES
+
+1. **ALL commit messages MUST be written in RUSSIAN language**
+   - Type prefix stays in English (feat, fix, docs, etc.)
+   - Description, body, and footer MUST be in Russian
+   
+2. **Use imperative mood in Russian** ("добавить", "исправить", "обновить")
+   - ✅ Correct: `feat: добавить авторизацию`
+   - ❌ Wrong: `feat: добавил авторизацию` (past tense)
+   - ❌ Wrong: `feat: add authorization` (English)
+
+3. **Commit message structure follows Conventional Commits**:
+   ```
+   <type>[optional scope]: <description in Russian>
+   
+   [optional body in Russian]
+   
+   [optional footer in Russian]
+   ```
+
+## Commit Types (English prefix only)
+
+- `feat` - новая функциональность
+- `fix` - исправление ошибки
+- `docs` - изменения в документации
+- `style` - форматирование кода (не влияет на логику)
+- `refactor` - рефакторинг без новых функций/исправлений
+- `perf` - улучшение производительности
+- `test` - добавление/изменение тестов
+- `build` - изменения в системе сборки или зависимостях
+- `ci` - изменения в CI/CD конфигурации
+- `chore` - рутинные задачи, обновления инструментов
+- `revert` - откат предыдущего коммита
+
+## Description Requirements
+
+- Length: up to 50 characters
+- Language: Russian
+- Mood: imperative (повелительное наклонение)
+- Case: start with lowercase (кроме имен собственных)
+- No period at the end
+- Be specific and descriptive
+
+## Examples for Cursor AI
+
+### Feature Addition
+```
+feat: добавить темную тему
+feat(auth): реализовать вход через OAuth
+feat(ui): добавить компонент карточки продукта
+```
+
+### Bug Fix
+```
+fix: исправить ошибку при загрузке изображений
+fix(api): корректно обрабатывать пустой ответ
+fix(login): устранить падение при неверном пароле
+```
+
+### Documentation
+```
+docs: обновить README с инструкциями по установке
+docs: добавить примеры использования API
+```
+
+### Refactoring
+```
+refactor: оптимизировать запросы к базе данных
+refactor(utils): упростить функцию валидации
+```
+
+### Styling
+```
+style: отформатировать код с помощью Prettier
+style: исправить отступы в компонентах
+```
+
+### Tests
+```
+test: добавить unit-тесты для auth сервиса
+test(api): покрыть тестами endpoints пользователей
+```
+
+### Build/Dependencies
+```
+build: обновить зависимости до последних версий
+build: добавить поддержку TypeScript 5.0
+chore: обновить конфигурацию ESLint
+```
+
+### Breaking Changes
+```
+feat!: изменить формат API ответов
+feat(api)!: удалить поддержку устаревших endpoints
+
+BREAKING CHANGE: API теперь возвращает данные в новом формате
+```
+
+### With Body and Footer
+```
+fix: устранить утечку памяти в WebSocket соединениях
+
+Пул соединений не корректно очищал закрытые соединения,
+что приводило к накоплению памяти со временем.
+
+Closes #156
+Reviewed-by: Иван Петров
+```
+
+## When Suggesting Commits to User
+
+1. Always generate commit message in Russian (except type prefix)
+2. Keep description concise and under 50 characters
+3. Use appropriate commit type based on changes
+4. Add scope in parentheses if changes are localized to specific area
+5. Use `!` or `BREAKING CHANGE` footer for breaking changes
+6. Reference issue numbers in footer when applicable
+
+## Common Scopes
+
+- `(auth)` - authentication/authorization
+- `(api)` - API endpoints
+- `(ui)` - user interface components
+- `(db)` - database changes
+- `(core)` - core functionality
+- `(config)` - configuration files
+- `(deps)` - dependencies
+- `(docs)` - documentation
+- `(test)` - tests
+
+## Validation Checklist
+
+Before suggesting a commit message, verify:
+- [ ] Type prefix is in English and valid
+- [ ] Description is in Russian
+- [ ] Description uses imperative mood
+- [ ] Description is under 50 characters
+- [ ] No period at the end of description
+- [ ] Body (if present) is in Russian and under 72 chars per line
+- [ ] Footer (if present) is in Russian
+- [ ] Breaking changes are properly marked
+
+## DON'T
+
+- ❌ Don't write descriptions in English
+- ❌ Don't use past tense ("добавил", "исправил")
+- ❌ Don't use vague descriptions ("правки", "обновления")
+- ❌ Don't mix unrelated changes in one commit
+- ❌ Don't exceed character limits
+- ❌ Don't add period at the end of description
+
+## DO
+
+- ✅ Write all text in Russian (except type)
+- ✅ Use imperative mood ("добавить", "исправить")
+- ✅ Be specific and descriptive
+- ✅ Keep atomic commits (one logical change)
+- ✅ Add body to explain "why" not "how"
+- ✅ Reference issues in footer when relevant

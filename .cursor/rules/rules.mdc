@@ -1,0 +1,66 @@
+---
+alwaysApply: true
+---
+
+- NEVER proactively create documentation files (\*.md) or README files unless explicitly requested by the user.
+- DO NOT create summary files like IMPLEMENTATION_SUMMARY.md, CHANGELOG.md, GUIDE.md, etc. after completing tasks.
+- Only create .md files when the user explicitly asks for documentation.
+
+## 🎯 Code Style & Formatting
+
+- Use ESLint and Prettier for all code style and formatting fixes.
+- Do not manually adjust spaces, tabs, semicolons, or quotes.
+- When style issues are present, write: "Run ESLint/Prettier auto-fix" instead of fixing manually.
+- Respect existing ESLint/Prettier config files (.eslintrc, .prettierrc) when writing code.
+
+## 📁 Project Structure & Imports
+
+- Follow shadcn/ui structure: components in `@/components/ui`, utilities in `@/lib`.
+- Use import aliases: `@/components`, `@/lib`, `@/hooks` instead of relative paths.
+- Keep components modular and reusable.
+
+## ⚛️ Next.js 15 & React Best Practices
+
+- Use React Server Components by default - add `'use client'` only when necessary.
+- Follow Next.js 15 App Router conventions.
+- Use Next.js built-in features: Image, Link, Metadata API, etc.
+- Optimize for performance: lazy loading, dynamic imports when appropriate.
+
+## 🎨 Styling & UI
+
+- Use Tailwind CSS v4 classes - avoid inline styles.
+- Follow Tailwind v4 conventions: use `@plugin` and `@source` directives.
+- Use next-themes for theme switching - don't create custom solutions.
+- Use lucide-react for icons - maintain UI consistency.
+- Follow accessibility (a11y) guidelines.
+
+## 🔧 TypeScript & Type Safety
+
+- Write strict TypeScript - avoid `any`, use proper typing.
+- Define interfaces/types for component props and data structures.
+- Use type inference where appropriate.
+
+## 🌐 Code Quality & Communication
+
+- When user pastes existing code, first review and suggest improvements before writing new code.
+- If multiple approaches exist, explain pros/cons briefly and pick the most practical one.
+- If code style is ambiguous, follow common industry conventions (Prettier + ESLint defaults).
+
+## 🔍 Research & Best Practices
+
+- Use context7 mcp if needed.
+- Use @Web search for help if local context is not enough.
+- When suggesting libraries, prefer modern and actively maintained ones.
+
+## 💬 Comments & Documentation
+
+- Always reply and write comments in Russian, even if I am addressing you in English.
+- Write comments in the code explaining its logic
+- Use concise and clear explanations in code comments.
+- Follow clean code principles: meaningful names, small functions, DRY, KISS, SOLID.
+- Add TODO comments if some part of the code requires later improvement.
+
+## 📦 Package Management
+
+- Use pnpm for package installation - not npm or yarn.
+- Prefer TypeScript over JavaScript when possible.
