@@ -34,6 +34,17 @@ alwaysApply: true
 - Use lucide-react for icons - maintain UI consistency.
 - Follow accessibility (a11y) guidelines.
 
+## 📱 Responsive Design
+
+- **All components and pages MUST be responsive** for different screen sizes.
+- Support devices from ultra-wide monitors (2560px+) to foldable smartphones (280px+).
+- Use Tailwind breakpoints: `sm:`, `md:`, `lg:`, `xl:`, `2xl:` for responsive design.
+- Mobile-first approach: start with mobile styles, then add larger screen variants.
+- Test layouts on: mobile (320-480px), tablet (768-1024px), desktop (1280px+), ultra-wide (1920px+).
+- Use responsive typography: scale text appropriately for screen size.
+- Ensure touch targets are at least 44x44px for mobile devices.
+- Images and media should scale properly using Next.js Image component.
+
 ## 🔧 TypeScript & Type Safety
 
 - Write strict TypeScript - avoid `any`, use proper typing.
