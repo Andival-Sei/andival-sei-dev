@@ -52,3 +52,12 @@ next-env.d.ts
 # OS
 .DS_Store
 Thumbs.db
+
+# Video source files (keep only optimized MP4 in public/)
+*.mov
+*.avi
+*.mkv
+*.wmv
+*.flv
+# Allow optimized MP4 in public/videos/
+!public/videos/**/*.mp4
