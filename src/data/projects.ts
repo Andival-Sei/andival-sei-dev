@@ -14,6 +14,8 @@ export interface Project {
   liveUrl: string;
   githubUrl: string;
   featured: boolean;
+  date: string; // Формат: "YYYY-MM-DD" для сортировки
+  type: "work" | "educational" | "pet"; // Тип проекта
 }
 
 /**
@@ -54,6 +56,8 @@ export const projects: Project[] = [
     liveUrl: "https://stellar-burgers-gold.vercel.app/",
     githubUrl: "https://github.com/Andival-Sei/stellar-burgers",
     featured: true,
+    date: "2024-09-15",
+    type: "educational",
   },
   {
     id: "web-larek",
@@ -66,6 +70,8 @@ export const projects: Project[] = [
     liveUrl: "https://web-larek-frontend-xi.vercel.app/",
     githubUrl: "https://github.com/Andival-Sei/web-larek-frontend",
     featured: true,
+    date: "2024-08-20",
+    type: "educational",
   },
   {
     id: "mods-guide",
@@ -78,6 +84,8 @@ export const projects: Project[] = [
     liveUrl: "https://mods-guide.vercel.app/",
     githubUrl: "https://github.com/Andival-Sei/mods-guide",
     featured: true,
+    date: "2024-10-01",
+    type: "pet",
   },
 ];
 
@@ -93,3 +101,28 @@ export const getFeaturedProjects = () => projects.filter((p) => p.featured);
  * @returns Проект или undefined
  */
 export const getProjectById = (id: string) => projects.find((p) => p.id === id);
+
+/**
+ * Получить уникальные технологии из всех проектов для фильтрации
+ * @returns Массив уникальных технологий
+ */
+export const getAllTechnologies = () => {
+  const techSet = new Set<string>();
+  projects.forEach((project) => {
+    project.technologies.forEach((tech) => techSet.add(tech));
+  });
+  return Array.from(techSet).sort();
+};
+
+/**
+ * Получить все типы проектов
+ * @returns Массив типов проектов
+ */
+export const getProjectTypes = () => {
+  return [
+    { value: "all", label: "Все проекты" },
+    { value: "work", label: "Рабочие" },
+    { value: "educational", label: "Учебные" },
+    { value: "pet", label: "Pet-проекты" },
+  ] as const;
+};

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +15,18 @@ interface ProjectCardProps {
   project: Project;
   variant?: "featured" | "grid";
 }
+
+/**
+ * Получить отображаемое название типа проекта
+ */
+const getProjectTypeLabel = (type: Project["type"]) => {
+  const labels = {
+    work: "Рабочий",
+    educational: "Учебный",
+    pet: "Pet-проект",
+  };
+  return labels[type];
+};
 
 /**
  * Компонент для отображения медиа (изображение или видео)
@@ -103,28 +116,43 @@ export function ProjectCard({ project, variant = "grid" }: ProjectCardProps) {
 
   // Вертикальная карточка для grid (для страницы /projects)
   return (
-    <div className="group rounded-lg overflow-hidden border bg-card hover:shadow-lg transition-shadow">
-      <div className="relative aspect-video overflow-hidden bg-muted">
-        <div className="transition-transform group-hover:scale-105 duration-300 w-full h-full">
-          <ProjectMedia project={project} />
+    <Link href={`/projects/${project.id}`}>
+      <div className="group rounded-lg overflow-hidden border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full">
+        <div className="relative aspect-video overflow-hidden bg-muted">
+          <div className="transition-transform group-hover:scale-105 duration-300 w-full h-full">
+            <ProjectMedia project={project} />
+          </div>
+          {/* Тип проекта в углу превью */}
+          <div className="absolute top-2 right-2">
+            <Badge
+              variant="secondary"
+              className="text-xs backdrop-blur-sm bg-background/80"
+            >
+              {getProjectTypeLabel(project.type)}
+            </Badge>
+          </div>
+        </div>
+        <div className="p-4 space-y-3">
+          <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+            {project.title}
+          </h3>
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {project.technologies.slice(0, 3).map((tech) => (
+              <Badge key={tech} variant="secondary" className="text-xs">
+                {tech}
+              </Badge>
+            ))}
+            {project.technologies.length > 3 && (
+              <Badge variant="secondary" className="text-xs">
+                +{project.technologies.length - 3}
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
-      <div className="p-4 space-y-3">
-        <h3 className="text-xl font-bold">{project.title}</h3>
-        <p className="text-sm text-muted-foreground">{project.description}</p>
-        <div className="flex flex-wrap gap-2">
-          {project.technologies.slice(0, 3).map((tech) => (
-            <Badge key={tech} variant="secondary" className="text-xs">
-              {tech}
-            </Badge>
-          ))}
-          {project.technologies.length > 3 && (
-            <Badge variant="secondary" className="text-xs">
-              +{project.technologies.length - 3}
-            </Badge>
-          )}
-        </div>
-      </div>
-    </div>
+    </Link>
   );
 }
