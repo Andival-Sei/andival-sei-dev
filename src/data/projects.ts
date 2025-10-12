@@ -118,11 +118,11 @@ export const getAllTechnologies = () => {
  * Получить все типы проектов
  * @returns Массив типов проектов
  */
-export const getProjectTypes = () => {
+export const getProjectTypes = (): { value: string; label: string }[] => {
   return [
     { value: "all", label: "Все проекты" },
     { value: "work", label: "Рабочие" },
     { value: "educational", label: "Учебные" },
     { value: "pet", label: "Pet-проекты" },
-  ] as const;
+  ];
 };

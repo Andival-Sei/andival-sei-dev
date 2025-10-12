@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ThemeToggle } from "../theme-toggle";
 import * as nextThemes from "next-themes";
+import type { UseThemeProps } from "next-themes/dist/types";
 
 describe("ThemeToggle", () => {
   describe("Рендеринг компонента", () => {
@@ -82,7 +83,7 @@ describe("ThemeToggle", () => {
         themes: ["light", "dark", "system"],
         resolvedTheme: "light",
         systemTheme: "light",
-      } as any);
+      } as UseThemeProps);
 
       const user = userEvent.setup();
       render(<ThemeToggle />);
@@ -103,7 +104,7 @@ describe("ThemeToggle", () => {
         themes: ["light", "dark", "system"],
         resolvedTheme: "light",
         systemTheme: "light",
-      } as any);
+      } as UseThemeProps);
 
       render(<ThemeToggle />);
 
@@ -127,7 +128,7 @@ describe("ThemeToggle", () => {
         themes: ["light", "dark", "system"],
         resolvedTheme: "dark",
         systemTheme: "dark",
-      } as any);
+      } as UseThemeProps);
 
       const { container } = render(<ThemeToggle />);
 

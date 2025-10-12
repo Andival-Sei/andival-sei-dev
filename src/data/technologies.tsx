@@ -199,7 +199,7 @@ const ClaudeIcon = ({ size = 40, ...props }: TechIconProps) => (
 export interface Technology {
   id: string;
   name: string;
-  icon: ComponentType<any>;
+  icon: ComponentType<Record<string, unknown>>;
   color: string;
   description: string;
 }

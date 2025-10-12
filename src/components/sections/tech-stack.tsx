@@ -13,9 +13,6 @@ const GRID_ROWS = 5;
 const CELL_SIZE_PX = 96;
 const GRID_GAP_PX = 24;
 const CLUSTER_COLUMNS = 5; // Максимальное количество колонок в ряду
-const COLUMN_STRIDE_PX = CELL_SIZE_PX + GRID_GAP_PX;
-const CLUSTER_WIDTH_PX =
-  CLUSTER_COLUMNS * CELL_SIZE_PX + (CLUSTER_COLUMNS - 1) * GRID_GAP_PX;
 const GRID_WIDTH_PX =
   GRID_COLUMNS * CELL_SIZE_PX + (GRID_COLUMNS - 1) * GRID_GAP_PX;
 

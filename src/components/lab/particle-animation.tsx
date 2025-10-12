@@ -9,7 +9,7 @@ import type { Particle } from "@/types/lab";
  */
 export function ParticleAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const particlesRef = useRef<Particle[]>([]);
 
   useEffect(() => {

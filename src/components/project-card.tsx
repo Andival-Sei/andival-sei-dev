@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -50,12 +51,14 @@ function ProjectMedia({ project }: { project: Project }) {
     );
   }
 
-  // Для изображений и GIF используем обычный img
+  // Для изображений и GIF используем Next.js Image
   return (
-    <img
+    <Image
       src={project.media}
       alt={project.title}
-      className="object-cover w-full h-full"
+      fill
+      className="object-cover"
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
     />
   );
 }

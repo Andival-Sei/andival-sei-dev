@@ -8,7 +8,6 @@ import { Mail, MapPin, ExternalLink } from "lucide-react";
 import {
   personalInfo,
   timelineEvents,
-  skills,
   interests,
   getSkillsByCategory,
 } from "@/data/about";
@@ -63,8 +62,7 @@ export default function AboutPage() {
     },
     {
       title: "Backend (базовый)",
-      subtitle:
-        "REST API, интеграции и работа с Node.js для задач фронтенда",
+      subtitle: "REST API, интеграции и работа с Node.js для задач фронтенда",
       skills: backendSkills,
     },
     {

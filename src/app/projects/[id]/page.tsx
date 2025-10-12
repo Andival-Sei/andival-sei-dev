@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -70,10 +71,12 @@ function ProjectMedia({
   }
 
   return (
-    <img
+    <Image
       src={project.media}
       alt={project.title}
-      className="w-full h-full object-cover"
+      fill
+      className="object-cover"
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
     />
   );
 }
