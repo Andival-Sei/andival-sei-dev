@@ -23,7 +23,7 @@ const GRID_WIDTH_PX =
 const MOBILE_CELL_SIZE_PX = 72;
 const MOBILE_GRID_GAP_PX = 16;
 
-// Создает позиции для 3 рядов: 5 блоков, 4 блока, 5 блоков
+// Создает позиции для 3 рядов: 5 блоков, 5 блоков, 5 блоков
 const createPositions = (startColumn: number) =>
   [
     // Ряд 1: 5 блоков (HTML, CSS, SCSS, JS, Playwright)
@@ -32,12 +32,13 @@ const createPositions = (startColumn: number) =>
     GRID_COLUMNS + startColumn + 2,
     GRID_COLUMNS + startColumn + 3,
     GRID_COLUMNS + startColumn + 4,
-    // Ряд 2: 4 блока (Vite, Git, Vercel, Figma)
+    // Ряд 2: 5 блоков (Vite, Vitest, Git, Vercel, Figma)
     GRID_COLUMNS * 2 + startColumn,
     GRID_COLUMNS * 2 + startColumn + 1,
     GRID_COLUMNS * 2 + startColumn + 2,
     GRID_COLUMNS * 2 + startColumn + 3,
-    // Ряд 3: 5 блоков (React, Next.js, TypeScript, Tailwind, Vitest)
+    GRID_COLUMNS * 2 + startColumn + 4,
+    // Ряд 3: 5 блоков (React, TypeScript, Cursor, GPT, Claude)
     GRID_COLUMNS * 3 + startColumn,
     GRID_COLUMNS * 3 + startColumn + 1,
     GRID_COLUMNS * 3 + startColumn + 2,
@@ -124,7 +125,7 @@ const TechGrid = ({ technologies }: TechGridProps) => {
   }, [viewportWidth, isMobileLayout]);
 
   // Вычисляем позиции на основе текущей ширины
-  // Layout: 3 ряда (5 блоков, 4 блока, 5 блоков)
+  // Layout: 3 ряда (5 блоков, 5 блоков, 5 блоков)
   const positions = useMemo(() => {
     return createPositions(calculateStartCol);
   }, [calculateStartCol]);
