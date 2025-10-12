@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { technologies, Technology } from "@/data/technologies";
 
@@ -11,102 +11,138 @@ interface TechGridProps {
 const GRID_COLUMNS = 24;
 const GRID_ROWS = 5;
 const CELL_SIZE_PX = 96;
-const COLUMN_GAP_PX = 12;
-const ROW_GAP_PX = 24;
+const GRID_GAP_PX = 24;
+const CLUSTER_COLUMNS = 4;
+const COLUMN_STRIDE_PX = CELL_SIZE_PX + GRID_GAP_PX;
+const CLUSTER_WIDTH_PX =
+  CLUSTER_COLUMNS * CELL_SIZE_PX + (CLUSTER_COLUMNS - 1) * GRID_GAP_PX;
 const GRID_WIDTH_PX =
-  GRID_COLUMNS * CELL_SIZE_PX + (GRID_COLUMNS - 1) * COLUMN_GAP_PX;
+  GRID_COLUMNS * CELL_SIZE_PX + (GRID_COLUMNS - 1) * GRID_GAP_PX;
 
-const POSITION_MAP = {
-  xl: [
-    GRID_COLUMNS * 2 + 11,
-    GRID_COLUMNS * 2 + 12,
-    GRID_COLUMNS * 2 + 13,
-    GRID_COLUMNS * 2 + 14,
-    GRID_COLUMNS * 3 + 11,
-    GRID_COLUMNS * 3 + 12,
-    GRID_COLUMNS * 3 + 13,
-    GRID_COLUMNS * 3 + 14,
-  ],
-  lg: [
-    GRID_COLUMNS * 2 + 10,
-    GRID_COLUMNS * 2 + 11,
-    GRID_COLUMNS * 2 + 12,
-    GRID_COLUMNS * 2 + 13,
-    GRID_COLUMNS * 3 + 10,
-    GRID_COLUMNS * 3 + 11,
-    GRID_COLUMNS * 3 + 12,
-    GRID_COLUMNS * 3 + 13,
-  ],
-  md: [
-    GRID_COLUMNS * 2 + 9,
-    GRID_COLUMNS * 2 + 10,
-    GRID_COLUMNS * 2 + 11,
-    GRID_COLUMNS * 2 + 12,
-    GRID_COLUMNS * 3 + 9,
-    GRID_COLUMNS * 3 + 10,
-    GRID_COLUMNS * 3 + 11,
-    GRID_COLUMNS * 3 + 12,
-  ],
-  sm: [
-    GRID_COLUMNS * 2 + 8,
-    GRID_COLUMNS * 2 + 9,
-    GRID_COLUMNS * 2 + 10,
-    GRID_COLUMNS * 2 + 11,
-    GRID_COLUMNS * 3 + 8,
-    GRID_COLUMNS * 3 + 9,
-    GRID_COLUMNS * 3 + 10,
-    GRID_COLUMNS * 3 + 11,
-  ],
-  xs: [
-    GRID_COLUMNS * 2 + 7,
-    GRID_COLUMNS * 2 + 8,
-    GRID_COLUMNS * 2 + 9,
-    GRID_COLUMNS * 2 + 10,
-    GRID_COLUMNS * 3 + 7,
-    GRID_COLUMNS * 3 + 8,
-    GRID_COLUMNS * 3 + 9,
-    GRID_COLUMNS * 3 + 10,
-  ],
-} as const;
+// Мобильные размеры (для экранов < 600px)
+const MOBILE_CELL_SIZE_PX = 72;
+const MOBILE_GRID_GAP_PX = 16;
 
-type BreakpointKey = keyof typeof POSITION_MAP;
+// Создает позиции для 2 рядов по 4 блока
+const createPositions = (startColumn: number) =>
+  [
+    GRID_COLUMNS + startColumn,
+    GRID_COLUMNS + startColumn + 1,
+    GRID_COLUMNS + startColumn + 2,
+    GRID_COLUMNS + startColumn + 3,
+    GRID_COLUMNS * 2 + startColumn,
+    GRID_COLUMNS * 2 + startColumn + 1,
+    GRID_COLUMNS * 2 + startColumn + 2,
+    GRID_COLUMNS * 2 + startColumn + 3,
+  ] as const;
 
-const pickPositionKey = (width: number): BreakpointKey => {
-  if (width >= 1440) return "xl";
-  if (width >= 1200) return "lg";
-  if (width >= 992) return "md";
-  if (width >= 768) return "sm";
-  return "xs";
-};
+const CENTER_COLUMN_OFFSET = Math.floor((GRID_COLUMNS - 4) / 2);
 
 const TechGrid = ({ technologies }: TechGridProps) => {
-  const [viewportWidth, setViewportWidth] = useState<number>(() =>
-    typeof window === "undefined" ? GRID_WIDTH_PX : window.innerWidth
-  );
-  const [positionsKey, setPositionsKey] = useState<BreakpointKey>(() => {
-    if (typeof window === "undefined") {
-      return "xl";
-    }
-    return pickPositionKey(window.innerWidth);
-  });
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [viewportWidth, setViewportWidth] = useState<number>(GRID_WIDTH_PX);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const resolveWidth = () => {
+      const windowWidth = window.innerWidth;
+
+      if (!containerRef.current) {
+        return windowWidth;
+      }
+
+      const parentWidth =
+        containerRef.current.parentElement?.getBoundingClientRect().width;
+      const selfWidth = containerRef.current.getBoundingClientRect().width;
+
+      const measuredWidth = parentWidth ?? selfWidth ?? windowWidth;
+
+      return Math.min(windowWidth, measuredWidth);
+    };
+
     const handleResize = () => {
-      const nextKey = pickPositionKey(window.innerWidth);
-      setPositionsKey((prev) => (prev === nextKey ? prev : nextKey));
-      setViewportWidth(window.innerWidth);
+      const currentWidth = resolveWidth();
+      setViewportWidth((prev) => (prev === currentWidth ? prev : currentWidth));
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && containerRef.current) {
+      resizeObserver = new ResizeObserver(() => handleResize());
+      resizeObserver.observe(
+        containerRef.current.parentElement ?? containerRef.current
+      );
+    }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      resizeObserver?.disconnect();
+    };
   }, []);
+
+  // Определяем мобильный layout для маленьких экранов
+  const isMobileLayout = viewportWidth < 600;
+
+  // Вычисляем стартовую колонку на основе ширины viewport
+  const calculateStartCol = useMemo(() => {
+    // Используем размеры в зависимости от layout
+    const cellSize = isMobileLayout ? MOBILE_CELL_SIZE_PX : CELL_SIZE_PX;
+    const gridGap = isMobileLayout ? MOBILE_GRID_GAP_PX : GRID_GAP_PX;
+    const columnStride = cellSize + gridGap;
+    const gridWidth = GRID_COLUMNS * cellSize + (GRID_COLUMNS - 1) * gridGap;
+
+    if (viewportWidth >= gridWidth) {
+      // Полная сетка видна - центрируем
+      return CENTER_COLUMN_OFFSET;
+    }
+
+    // Вычисляем сколько колонок примерно помещается на экране
+    const visibleColumns = Math.floor(viewportWidth / columnStride);
+
+    // Вычисляем смещение: сколько колонок нужно "пропустить" слева
+    // чтобы кластер оказался в центре видимой области
+    const shift = Math.max(0, Math.floor((GRID_COLUMNS - visibleColumns) / 2));
+
+    // Но не смещаем дальше, чем позволяет сетка
+    const maxStartCol = GRID_COLUMNS - CLUSTER_COLUMNS;
+    return Math.min(CENTER_COLUMN_OFFSET + shift, maxStartCol);
+  }, [viewportWidth, isMobileLayout]);
+
+  // Вычисляем позиции на основе текущей ширины
+  // Всегда используем обычный layout (2 ряда по 4 блока)
+  const positions = useMemo(() => {
+    return createPositions(calculateStartCol);
+  }, [calculateStartCol]);
+
+  const startColumn =
+    positions.length > 0 ? positions[0] % GRID_COLUMNS : CENTER_COLUMN_OFFSET;
+
+  // Всегда используем 4 колонки (2 ряда по 4 блока)
+  const clusterColumns = CLUSTER_COLUMNS;
+
+  // Используем мобильные размеры для расчетов, если это мобильный layout
+  const cellSize = isMobileLayout ? MOBILE_CELL_SIZE_PX : CELL_SIZE_PX;
+  const gridGap = isMobileLayout ? MOBILE_GRID_GAP_PX : GRID_GAP_PX;
+  const columnStride = cellSize + gridGap;
+  const gridWidth = GRID_COLUMNS * cellSize + (GRID_COLUMNS - 1) * gridGap;
+
+  const clusterWidth =
+    clusterColumns * cellSize + (clusterColumns - 1) * gridGap;
+  const clusterCenter = startColumn * columnStride + clusterWidth / 2;
+
+  // Центрируем grid через translate
+  const translate =
+    viewportWidth >= gridWidth ? 0 : viewportWidth / 2 - clusterCenter;
 
   const grid = useMemo<(Technology | null)[]>(() => {
     const template: (Technology | null)[] = new Array(
       GRID_COLUMNS * GRID_ROWS
     ).fill(null);
-    const positions = POSITION_MAP[positionsKey];
 
     technologies.forEach((tech, index) => {
       if (index < positions.length) {
@@ -115,7 +151,7 @@ const TechGrid = ({ technologies }: TechGridProps) => {
     });
 
     return template;
-  }, [positionsKey, technologies]);
+  }, [positions, technologies]);
 
   return (
     <div
@@ -125,11 +161,11 @@ const TechGrid = ({ technologies }: TechGridProps) => {
       {/* Градиентные тени по краям */}
       <div className="absolute inset-0 pointer-events-none z-10">
         {/* Левая тень */}
-        {positionsKey !== "sm" && positionsKey !== "xs" && (
+        {!isMobileLayout && viewportWidth >= 800 && (
           <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-background via-background/80 to-transparent" />
         )}
         {/* Правая тень */}
-        {positionsKey !== "sm" && positionsKey !== "xs" && (
+        {!isMobileLayout && viewportWidth >= 800 && (
           <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-background via-background/80 to-transparent" />
         )}
         {/* Верхняя тень */}
@@ -139,15 +175,18 @@ const TechGrid = ({ technologies }: TechGridProps) => {
       </div>
 
       {/* Фиксированная сетка — двигаются только технологии */}
-      <div className="relative flex justify-center overflow-visible">
+      <div
+        ref={containerRef}
+        className={`relative flex overflow-visible ${viewportWidth >= gridWidth ? "justify-center" : "justify-start"}`}
+      >
         <div
           className="relative tech-grid"
           style={{
-            width: `${GRID_WIDTH_PX}px`,
+            width: `${gridWidth}px`,
             transform:
-              viewportWidth >= GRID_WIDTH_PX
+              viewportWidth >= gridWidth
                 ? undefined
-                : `translateX(${(viewportWidth - GRID_WIDTH_PX) / 2}px)`,
+                : `translateX(${translate}px)`,
           }}
         >
           {grid.map((tech, index) => {
@@ -171,8 +210,12 @@ const TechGrid = ({ technologies }: TechGridProps) => {
                   gridColumn: `${col + 1} / ${col + 2}`,
                   gridRow: `${row + 1} / ${row + 2}`,
                   transform: `translateX(${offset * 100}%)`,
-                  width: `${CELL_SIZE_PX}px`,
-                  height: `${CELL_SIZE_PX}px`,
+                  width: isMobileLayout
+                    ? `${MOBILE_CELL_SIZE_PX}px`
+                    : `${CELL_SIZE_PX}px`,
+                  height: isMobileLayout
+                    ? `${MOBILE_CELL_SIZE_PX}px`
+                    : `${CELL_SIZE_PX}px`,
                   ...(tech &&
                     ({
                       "--glow-color": tech.color,
@@ -187,7 +230,7 @@ const TechGrid = ({ technologies }: TechGridProps) => {
                   <>
                     {/* Иконка */}
                     <tech.icon
-                      size={40}
+                      size={isMobileLayout ? 32 : 40}
                       className="transition-all duration-300 ease-in-out relative z-10"
                       style={{
                         color: tech.color,
@@ -211,28 +254,15 @@ const TechGrid = ({ technologies }: TechGridProps) => {
       <style jsx>{`
         .tech-grid {
           display: grid;
-          grid-template-columns: repeat(${GRID_COLUMNS}, ${CELL_SIZE_PX}px);
-          column-gap: ${COLUMN_GAP_PX}px;
-          row-gap: ${ROW_GAP_PX}px;
+          grid-template-columns: repeat(
+            ${GRID_COLUMNS},
+            ${isMobileLayout ? MOBILE_CELL_SIZE_PX : CELL_SIZE_PX}px
+          );
+          column-gap: ${isMobileLayout ? MOBILE_GRID_GAP_PX : GRID_GAP_PX}px;
+          row-gap: ${isMobileLayout ? MOBILE_GRID_GAP_PX : GRID_GAP_PX}px;
           padding-top: 6rem;
           padding-bottom: 6rem;
           margin: 0 auto;
-        }
-
-        @media (max-width: 991px) {
-          .tech-grid {
-            margin-left: calc(
-              (100vw - 4 * ${CELL_SIZE_PX}px - 3 * ${COLUMN_GAP_PX}px) / 2
-            );
-            margin-right: calc(
-              (100vw - 4 * ${CELL_SIZE_PX}px - 3 * ${COLUMN_GAP_PX}px) / 2
-            );
-          }
-
-          .tech-grid > div {
-            width: ${CELL_SIZE_PX}px;
-            height: ${CELL_SIZE_PX}px;
-          }
         }
 
         .tech-block {
