@@ -1,0 +1,177 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Header > Snapshot тесты > соответствует snapshot в начальном состоянии 1`] = `
+<header
+  class="sticky top-0 z-50 w-full transition-all duration-300 border-b border-transparent bg-background"
+>
+  <div
+    class="container mx-auto px-4"
+  >
+    <div
+      class="flex h-16 items-center justify-between"
+    >
+      <a
+        class="flex items-center text-xl font-bold transition-colors hover:text-primary sm:text-2xl"
+        href="/"
+      >
+        Andival-Sei
+      </a>
+      <nav
+        class="hidden items-center gap-6 md:flex"
+      >
+        <a
+          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          href="/projects"
+        >
+          Проекты
+        </a>
+        <a
+          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          href="/about"
+        >
+          Обо мне
+        </a>
+        <a
+          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          href="/lab"
+        >
+          Lab
+        </a>
+      </nav>
+      <div
+        class="flex items-center gap-3"
+      >
+        <a
+          class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 hidden font-medium sm:inline-flex"
+          data-slot="button"
+          href="/contact"
+        >
+          Связаться
+        </a>
+        <button
+          aria-controls="radix-«r1v»"
+          aria-expanded="false"
+          aria-haspopup="dialog"
+          aria-label="Открыть меню"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 md:hidden"
+          data-slot="sheet-trigger"
+          data-state="closed"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-menu h-5 w-5"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 5h16"
+            />
+            <path
+              d="M4 12h16"
+            />
+            <path
+              d="M4 19h16"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+`;
+
+exports[`Header > Snapshot тесты > соответствует snapshot после скролла 1`] = `
+<header
+  class="sticky top-0 z-50 w-full transition-all duration-300 border-b bg-background/80 backdrop-blur-md shadow-sm"
+>
+  <div
+    class="container mx-auto px-4"
+  >
+    <div
+      class="flex h-16 items-center justify-between"
+    >
+      <a
+        class="flex items-center text-xl font-bold transition-colors hover:text-primary sm:text-2xl"
+        href="/"
+      >
+        Andival-Sei
+      </a>
+      <nav
+        class="hidden items-center gap-6 md:flex"
+      >
+        <a
+          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          href="/projects"
+        >
+          Проекты
+        </a>
+        <a
+          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          href="/about"
+        >
+          Обо мне
+        </a>
+        <a
+          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          href="/lab"
+        >
+          Lab
+        </a>
+      </nav>
+      <div
+        class="flex items-center gap-3"
+      >
+        <a
+          class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 hidden font-medium sm:inline-flex"
+          data-slot="button"
+          href="/contact"
+        >
+          Связаться
+        </a>
+        <button
+          aria-controls="radix-«r22»"
+          aria-expanded="false"
+          aria-haspopup="dialog"
+          aria-label="Открыть меню"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 md:hidden"
+          data-slot="sheet-trigger"
+          data-state="closed"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-menu h-5 w-5"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 5h16"
+            />
+            <path
+              d="M4 12h16"
+            />
+            <path
+              d="M4 19h16"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+`;
