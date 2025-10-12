@@ -1,10 +1,11 @@
 import { Hero } from "@/components/sections/hero";
+import TechStack from "@/components/sections/tech-stack";
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      {/* TODO: Добавить секцию Tech Stack */}
+      <TechStack />
       {/* TODO: Добавить секцию Featured Projects */}
     </main>
   );

@@ -47,13 +47,14 @@
 
 ### 2.2 Стек технологий
 
-- [ ] Создать секцию технологий (`src/components/sections/tech-stack.tsx`)
-  - [ ] Grid layout с иконками технологий
-  - [ ] Технологии: Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, Node.js, Git
-  - [ ] Иконки из lucide-react или кастомные SVG
-  - [ ] Hover эффекты и плавные переходы
-  - [ ] Адаптивный дизайн
-- [ ] Создать данные (`src/data/technologies.ts`)
+- [x] Создать секцию технологий (`src/components/sections/tech-stack.tsx`)
+  - [x] Grid layout с иконками технологий
+  - [x] Технологии: Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, Node.js, Git
+  - [x] Иконки из react-icons (технологические иконки)
+  - [x] Hover эффекты и плавные переходы
+  - [x] Адаптивный дизайн
+  - [x] Стиль как на vite.dev: смещенные ряды, тени по краям, подсветка при наведении
+- [x] Создать данные (`src/data/technologies.ts`)
 
 ### 2.3 Избранные проекты
 

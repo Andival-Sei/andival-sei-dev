@@ -49,6 +49,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --grid-template-columns-15: repeat(15, minmax(0, 1fr));
 }
 
 :root {
