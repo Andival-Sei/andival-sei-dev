@@ -141,6 +141,7 @@ const TechGrid = ({ technologies }: TechGridProps) => {
   const gridGap = isMobileLayout ? MOBILE_GRID_GAP_PX : GRID_GAP_PX;
   const columnStride = cellSize + gridGap;
   const gridWidth = GRID_COLUMNS * cellSize + (GRID_COLUMNS - 1) * gridGap;
+  const gridHeight = GRID_ROWS * cellSize + (GRID_ROWS - 1) * gridGap;
 
   const clusterWidth =
     clusterColumns * cellSize + (clusterColumns - 1) * gridGap;
@@ -167,7 +168,9 @@ const TechGrid = ({ technologies }: TechGridProps) => {
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ minHeight: "750px" }}
+      style={{
+        minHeight: `calc(${gridHeight}px + 12rem)`,
+      }}
     >
       {/* Градиентные тени по краям */}
       <div className="absolute inset-0 pointer-events-none z-10">
