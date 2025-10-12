@@ -12,6 +12,7 @@ import {
   interests,
   getSkillsByCategory,
 } from "@/data/about";
+import { technologies, type Technology } from "@/data/technologies";
 
 /**
  * Страница "Обо мне"
@@ -46,6 +47,33 @@ export default function AboutPage() {
   const toolsSkills = getSkillsByCategory("tools");
   const backendSkills = getSkillsByCategory("backend");
   const softSkills = getSkillsByCategory("soft");
+
+  const skillClusters: SkillClusterProps[] = [
+    {
+      title: "Frontend",
+      subtitle:
+        "Компонентный UI, SSR/ISR в Next.js, адаптивная и доступная верстка",
+      skills: frontendSkills,
+    },
+    {
+      title: "Tools & Testing",
+      subtitle:
+        "CI/CD, линтинг, автотесты и поддержка продуктивного процесса разработки",
+      skills: toolsSkills,
+    },
+    {
+      title: "Backend (базовый)",
+      subtitle:
+        "REST API, интеграции и работа с Node.js для задач фронтенда",
+      skills: backendSkills,
+    },
+    {
+      title: "Soft Skills",
+      subtitle:
+        "Командная работа, фасилитация обсуждений и ясная коммуникация с бизнесом",
+      skills: softSkills,
+    },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -215,28 +243,27 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Навыки секция */}
+      {/* Навыки и технологии */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <h2 className="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl">
             Навыки и технологии
           </h2>
           <p className="mx-auto mb-12 max-w-2xl text-center text-lg text-muted-foreground">
-            Мой технический стек и компетенции
+            От фундамента вёрстки до отлаженных процессов доставки фич в прод
           </p>
 
-          <div className="mx-auto max-w-4xl space-y-12">
-            {/* Frontend */}
-            <SkillsCategory title="Frontend" skills={frontendSkills} />
-
-            {/* Tools */}
-            <SkillsCategory title="Tools & Testing" skills={toolsSkills} />
-
-            {/* Backend */}
-            <SkillsCategory title="Backend (базовый)" skills={backendSkills} />
-
-            {/* Soft Skills */}
-            <SkillsCategory title="Soft Skills" skills={softSkills} />
+          <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1.65fr)]">
+            <div className="space-y-6">
+              {TECH_HIGHLIGHTS.map((highlight) => (
+                <TechHighlightCard key={highlight.title} {...highlight} />
+              ))}
+            </div>
+            <div className="space-y-6">
+              {skillClusters.map((cluster) => (
+                <SkillCluster key={cluster.title} {...cluster} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -311,31 +338,114 @@ export default function AboutPage() {
 /**
  * Компонент категории навыков
  */
-interface SkillsCategoryProps {
+interface SkillClusterProps {
   title: string;
+  subtitle: string;
   skills: Array<{ name: string; level: number }>;
 }
 
-function SkillsCategory({ title, skills }: SkillsCategoryProps) {
+interface TechHighlightConfig {
+  title: string;
+  description: string;
+  techIds: Array<Technology["id"]>;
+  accent: string;
+}
+
+const LEVEL_LABELS: Record<number, string> = {
+  5: "эксперт",
+  4: "продвинутый",
+  3: "уверенный",
+  2: "практика",
+  1: "основы",
+};
+
+const TECH_HIGHLIGHTS: TechHighlightConfig[] = [
+  {
+    title: "Фронтенд-основа",
+    description:
+      "Собираю адаптивные интерфейсы, держу в фокусе доступность и пиксель-перфект.",
+    techIds: ["html", "css", "scss", "javascript", "typescript"],
+    accent: "from-blue-500/20 via-purple-500/10 to-transparent",
+  },
+  {
+    title: "React-экосистема",
+    description:
+      "Проектирую архитектуру, оптимизирую рендер и строю UI-киты на React и Next.js.",
+    techIds: ["react", "typescript", "vite", "vitest", "playwright"],
+    accent: "from-purple-500/20 via-pink-500/10 to-transparent",
+  },
+  {
+    title: "Процессы и инструменты",
+    description:
+      "Настраиваю CI/CD, пишу автотесты и поддерживаю прозрачную коммуникацию в команде.",
+    techIds: ["git", "vercel", "figma", "gpt", "claude"],
+    accent: "from-emerald-500/20 via-blue-500/10 to-transparent",
+  },
+];
+
+const getLevelLabel = (level: number) => LEVEL_LABELS[level] ?? "уверенный";
+
+function TechHighlightCard({
+  title,
+  description,
+  techIds,
+  accent,
+}: TechHighlightConfig) {
   return (
-    <div>
-      <h3 className="mb-6 text-xl font-bold">{title}</h3>
-      <div className="space-y-4">
-        {skills.map((skill) => (
-          <div key={skill.name}>
-            <div className="mb-2 flex items-center justify-between">
-              <span className="font-medium">{skill.name}</span>
-              <span className="text-sm text-muted-foreground">
-                {skill.level}/5
-              </span>
-            </div>
-            {/* Прогресс бар */}
-            <div className="h-2 overflow-hidden rounded-full bg-muted">
+    <div className="relative overflow-hidden rounded-2xl border bg-card/60 p-6 shadow-sm">
+      <div
+        className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${accent} opacity-80`}
+      />
+      <div className="relative">
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {techIds.map((techId) => {
+            const tech = technologies.find((item) => item.id === techId);
+            if (!tech) {
+              return null;
+            }
+            const Icon = tech.icon;
+            return (
               <div
-                className="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-1000"
-                style={{ width: `${(skill.level / 5) * 100}%` }}
-              />
-            </div>
+                key={techId}
+                className="flex items-center gap-2 rounded-full border border-border/50 bg-background/80 px-3 py-1 text-sm font-medium shadow-sm transition-transform duration-200 hover:-translate-y-0.5"
+                title={tech.description}
+              >
+                <Icon
+                  size={20}
+                  className="shrink-0"
+                  style={{ color: tech.color }}
+                  aria-hidden="true"
+                />
+                <span>{tech.name}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SkillCluster({ title, subtitle, skills }: SkillClusterProps) {
+  return (
+    <div className="rounded-2xl border bg-card/60 p-6 shadow-sm">
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {skills.map((skill) => (
+          <div
+            key={skill.name}
+            className="flex items-center gap-2 rounded-full border border-border/50 bg-background/80 px-3 py-1 text-sm font-medium shadow-sm"
+            aria-label={`${skill.name} — уровень ${getLevelLabel(skill.level)}`}
+          >
+            <span>{skill.name}</span>
+            <span className="text-xs uppercase tracking-wide text-muted-foreground">
+              {getLevelLabel(skill.level)}
+            </span>
           </div>
         ))}
       </div>
