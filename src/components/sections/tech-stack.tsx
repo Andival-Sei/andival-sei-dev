@@ -12,7 +12,7 @@ const GRID_COLUMNS = 24;
 const GRID_ROWS = 5;
 const CELL_SIZE_PX = 96;
 const GRID_GAP_PX = 24;
-const CLUSTER_COLUMNS = 4;
+const CLUSTER_COLUMNS = 5; // Максимальное количество колонок в ряду
 const COLUMN_STRIDE_PX = CELL_SIZE_PX + GRID_GAP_PX;
 const CLUSTER_WIDTH_PX =
   CLUSTER_COLUMNS * CELL_SIZE_PX + (CLUSTER_COLUMNS - 1) * GRID_GAP_PX;
@@ -23,20 +23,30 @@ const GRID_WIDTH_PX =
 const MOBILE_CELL_SIZE_PX = 72;
 const MOBILE_GRID_GAP_PX = 16;
 
-// Создает позиции для 2 рядов по 4 блока
+// Создает позиции для 3 рядов: 5 блоков, 4 блока, 5 блоков
 const createPositions = (startColumn: number) =>
   [
+    // Ряд 1: 5 блоков (HTML, CSS, SCSS, JS, Playwright)
     GRID_COLUMNS + startColumn,
     GRID_COLUMNS + startColumn + 1,
     GRID_COLUMNS + startColumn + 2,
     GRID_COLUMNS + startColumn + 3,
+    GRID_COLUMNS + startColumn + 4,
+    // Ряд 2: 4 блока (Vite, Git, Vercel, Figma)
     GRID_COLUMNS * 2 + startColumn,
     GRID_COLUMNS * 2 + startColumn + 1,
     GRID_COLUMNS * 2 + startColumn + 2,
     GRID_COLUMNS * 2 + startColumn + 3,
+    // Ряд 3: 5 блоков (React, Next.js, TypeScript, Tailwind, Vitest)
+    GRID_COLUMNS * 3 + startColumn,
+    GRID_COLUMNS * 3 + startColumn + 1,
+    GRID_COLUMNS * 3 + startColumn + 2,
+    GRID_COLUMNS * 3 + startColumn + 3,
+    GRID_COLUMNS * 3 + startColumn + 4,
   ] as const;
 
-const CENTER_COLUMN_OFFSET = Math.floor((GRID_COLUMNS - 4) / 2);
+// Центрируем относительно самого широкого ряда (5 блоков)
+const CENTER_COLUMN_OFFSET = Math.floor((GRID_COLUMNS - 5) / 2);
 
 const TechGrid = ({ technologies }: TechGridProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -114,7 +124,7 @@ const TechGrid = ({ technologies }: TechGridProps) => {
   }, [viewportWidth, isMobileLayout]);
 
   // Вычисляем позиции на основе текущей ширины
-  // Всегда используем обычный layout (2 ряда по 4 блока)
+  // Layout: 3 ряда (5 блоков, 4 блока, 5 блоков)
   const positions = useMemo(() => {
     return createPositions(calculateStartCol);
   }, [calculateStartCol]);
@@ -122,7 +132,7 @@ const TechGrid = ({ technologies }: TechGridProps) => {
   const startColumn =
     positions.length > 0 ? positions[0] % GRID_COLUMNS : CENTER_COLUMN_OFFSET;
 
-  // Всегда используем 4 колонки (2 ряда по 4 блока)
+  // Максимальное количество колонок в ряду
   const clusterColumns = CLUSTER_COLUMNS;
 
   // Используем мобильные размеры для расчетов, если это мобильный layout
@@ -156,7 +166,7 @@ const TechGrid = ({ technologies }: TechGridProps) => {
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ minHeight: "600px" }}
+      style={{ minHeight: "750px" }}
     >
       {/* Градиентные тени по краям */}
       <div className="absolute inset-0 pointer-events-none z-10">
