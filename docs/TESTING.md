@@ -31,6 +31,94 @@
 
 ---
 
+## 🔄 Git Workflow и процесс разработки
+
+### Стратегия работы с ветками
+
+Для каждого **ЭТАПА** создаётся отдельная feature-ветка:
+
+```bash
+# Структура веток
+main
+  ├── feature/tests-project-components  # Этап 2.2
+  ├── feature/tests-sections            # Этап 3
+  ├── feature/tests-lab                 # Этап 4
+  ├── feature/tests-pages               # Этап 5
+  ├── feature/tests-data                # Этап 6
+  └── feature/e2e-setup                 # Этап 7
+```
+
+### Workflow для каждого этапа
+
+```bash
+# 1. Создать ветку для этапа
+git checkout -b feature/tests-[название-этапа]
+
+# 2. Работать над тестами, делая коммиты по мере выполнения
+git add src/components/__tests__/component.test.tsx
+git commit -m "test: add Component tests"
+
+# 3. Перед мерджем - ОБЯЗАТЕЛЬНЫЕ ПРОВЕРКИ
+pnpm test:run        # Все тесты должны пройти ✅
+pnpm build           # Build должен пройти без ошибок ✅
+
+# 4. Если проверки прошли - мержить в main
+git checkout main
+git merge feature/tests-[название-этапа]
+git push origin main
+
+# 5. Удалить ветку после успешного merge
+git branch -d feature/tests-[название-этапа]
+
+# 6. Обновить TESTING.md (отметить прогресс)
+git add docs/TESTING.md
+git commit -m "docs: update TESTING.md - stage [N] completed"
+git push origin main
+```
+
+### ⚠️ Чеклист перед мерджем
+
+**ОБЯЗАТЕЛЬНО проверить перед каждым merge в main:**
+
+- [ ] `pnpm test:run` - все тесты проходят (зелёные ✅)
+- [ ] `pnpm build` - сборка проходит без ошибок
+- [ ] `pnpm test:coverage` - покрытие увеличилось
+- [ ] Нет console errors в тестах
+- [ ] Нет TypeScript ошибок
+
+### Naming convention для веток
+
+```bash
+# Этапы тестирования
+feature/tests-project-components
+feature/tests-sections
+feature/tests-lab
+feature/tests-pages
+feature/tests-data
+
+# E2E тесты
+feature/e2e-setup
+e2e/navigation
+e2e/projects-flow
+
+# Исправления
+fix/test-[описание]
+```
+
+### Commit messages
+
+Следуйте конвенции из `.cursor/rules/commit-messages.mdc`:
+
+```bash
+test: add ProjectCard component tests
+test: add Hero section rendering tests
+test(ui): improve Button accessibility tests
+fix(test): correct ProjectCard snapshot
+docs: update TESTING.md with stage progress
+```
+
+---
+
 ## 📋 Этап 1: UI компоненты shadcn/ui
 
 ### 1.1 Базовые UI компоненты (✅ Готово)
@@ -874,6 +962,24 @@ pnpm test:e2e:ui
 ---
 
 ## 📝 История изменений
+
+### 13.10.2025 - Добавлен Git Workflow
+
+**Что добавлено:**
+
+- ✅ Секция "Git Workflow и процесс разработки"
+- ✅ Стратегия работы с ветками (feature-ветка для каждого этапа)
+- ✅ Чеклист обязательных проверок перед мерджем:
+  - `pnpm test:run` - все тесты должны проходить
+  - `pnpm build` - сборка должна проходить без ошибок
+- ✅ Naming convention для веток и коммитов
+- ✅ Пошаговый workflow для каждого этапа
+
+**Зачем это нужно:**
+
+Чёткая стратегия работы помогает поддерживать чистую историю Git, предотвращает ошибки при мердже и гарантирует, что код в main всегда рабочий.
+
+---
 
 ### 13.10.2025 - Этап 1.2 завершен
 
