@@ -1,0 +1,59 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Sheet > Snapshot тесты > соответствует snapshot для базового sheet 1`] = `
+<button
+  aria-controls="radix-«r2t»"
+  aria-expanded="false"
+  aria-haspopup="dialog"
+  data-slot="sheet-trigger"
+  data-state="closed"
+  type="button"
+>
+  Open Sheet
+</button>
+`;
+
+exports[`Sheet > Snapshot тесты > соответствует snapshot для различных сторон 1`] = `
+<div>
+  <button
+    aria-controls="radix-«r30»"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-slot="sheet-trigger"
+    data-state="closed"
+    type="button"
+  >
+    Right
+  </button>
+  <button
+    aria-controls="radix-«r33»"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-slot="sheet-trigger"
+    data-state="closed"
+    type="button"
+  >
+    Left
+  </button>
+  <button
+    aria-controls="radix-«r36»"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-slot="sheet-trigger"
+    data-state="closed"
+    type="button"
+  >
+    Top
+  </button>
+  <button
+    aria-controls="radix-«r39»"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-slot="sheet-trigger"
+    data-state="closed"
+    type="button"
+  >
+    Bottom
+  </button>
+</div>
+`;
