@@ -40,9 +40,7 @@ yarn-error.log*
 next-env.d.ts
 
 # IDE - Cursor, VS Code, WebStorm
-# Ignore Cursor IDE files, but keep rules
 .cursor/*
-!.cursor/rules/
 .vscode/
 .idea/
 *.swp
