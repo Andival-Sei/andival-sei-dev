@@ -17,7 +17,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
+import { Badge, badgeVariants } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 /**
  * Компонент фильтрации проектов
@@ -140,7 +141,12 @@ export function ProjectsFilters({
         {/* Фильтр по технологиям */}
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="gap-2">
+            <Button
+              variant="outline"
+              className="gap-2"
+              aria-haspopup="listbox"
+              aria-expanded={isPopoverOpen}
+            >
               <Filter className="h-4 w-4" />
               Технологии
               {selectedTechnologies.length > 0 && (
@@ -188,15 +194,20 @@ export function ProjectsFilters({
         {selectedTechnologies.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center">
             {selectedTechnologies.map((tech) => (
-              <Badge
+              <button
                 key={tech}
-                variant="secondary"
-                className="gap-1 cursor-pointer"
+                type="button"
                 onClick={() => handleTechnologyToggle(tech)}
+                className={cn(
+                  badgeVariants({ variant: "secondary" }),
+                  "gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                )}
+                aria-label={`Удалить фильтр по технологии ${tech}`}
+                aria-pressed="true"
               >
                 {tech}
-                <X className="h-3 w-3" />
-              </Badge>
+                <X className="h-3 w-3" aria-hidden="true" />
+              </button>
             ))}
           </div>
         )}

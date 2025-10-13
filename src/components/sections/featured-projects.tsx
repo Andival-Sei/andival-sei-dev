@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { Reveal } from "@/components/animation/reveal";
 import { ProjectCard } from "@/components/project-card";
 import { getFeaturedProjects } from "@/data/projects";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 /**
  * Секция избранных проектов с каруселью
@@ -26,15 +27,15 @@ export function FeaturedProjects() {
   return (
     <section className="container mx-auto px-4 py-20 md:py-32">
       {/* Заголовок секции */}
-      <div className="mb-12 md:mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+      <Reveal className="mb-12 text-center md:mb-16">
+        <h2 className="mb-4 text-3xl font-bold md:text-4xl lg:text-5xl">
           Избранные проекты
         </h2>
-        <p className="text-muted-foreground text-base md:text-lg lg:text-xl max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg lg:text-xl">
           Мои лучшие работы, демонстрирующие навыки в React, TypeScript и
           современной веб-разработке
         </p>
-      </div>
+      </Reveal>
 
       {/* Карусель с проектом */}
       <div className="relative max-w-6xl mx-auto">
@@ -51,12 +52,9 @@ export function FeaturedProjects() {
         </button>
 
         {/* Карточка проекта с анимацией */}
-        <div
-          key={currentIndex}
-          className="animate-in fade-in zoom-in-95 duration-500"
-        >
+        <Reveal key={currentIndex} delay={100}>
           <ProjectCard project={projects[currentIndex]} variant="featured" />
-        </div>
+        </Reveal>
 
         {/* Стрелка вправо (вне карточки, только на десктопе) */}
         <button

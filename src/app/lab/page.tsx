@@ -1,11 +1,34 @@
-"use client";
+import dynamic from "next/dynamic";
+import type { Metadata } from "next";
 
-import { ParticleAnimation } from "@/components/lab/particle-animation";
+import { createMetadata } from "@/lib/site-metadata";
 
-/**
- * Страница Lab (лаборатория экспериментов)
- * Показывает анимацию частиц с превращением в "COMING SOON"
- */
+const ParticleAnimation = dynamic(
+  () =>
+    import("@/components/lab/particle-animation").then((mod) => ({
+      default: mod.ParticleAnimation,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">
+        Загрузка лаборатории...
+      </div>
+    ),
+  }
+);
+
+export const metadata: Metadata = createMetadata({
+  title: "Lab",
+  description:
+    "Экспериментальная лаборатория: превью идей, прототипов и визуальных эффектов.",
+  path: "/lab",
+});
+
 export default function LabPage() {
-  return <ParticleAnimation />;
+  return (
+    <div className="min-h-[70vh]">
+      <ParticleAnimation />
+    </div>
+  );
 }

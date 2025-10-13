@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/animation/reveal";
 import { Mail } from "lucide-react";
 import { FaGithub, FaTelegram, FaVk } from "react-icons/fa";
 
@@ -41,7 +42,7 @@ export default function ContactPage() {
     <div className="container mx-auto px-4 py-16 md:py-24">
       <div className="mx-auto max-w-4xl">
         {/* Заголовок */}
-        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <Reveal className="mb-8">
           <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             Свяжитесь со мной
           </h1>
@@ -49,10 +50,10 @@ export default function ContactPage() {
             Открыт для новых проектов и предложений. Буду рад обсудить
             возможности сотрудничества.
           </p>
-        </div>
+        </Reveal>
 
         {/* Email секция */}
-        <div className="mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+        <Reveal className="mb-12" delay={120}>
           <div className="rounded-lg border bg-card p-6 transition-colors hover:bg-accent/5 sm:p-8">
             <div className="mb-4">
               <h2 className="text-2xl font-semibold tracking-tight">Email</h2>
@@ -75,10 +76,10 @@ export default function ContactPage() {
               </Button>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Социальные сети */}
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+        <Reveal delay={200}>
           <div className="mb-6">
             <h2 className="text-2xl font-semibold tracking-tight">
               Социальные сети
@@ -110,7 +111,7 @@ export default function ContactPage() {
               );
             })}
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { AppProviders } from "@/components/providers/app-providers";
+import { PageTransition } from "@/components/layout/page-transition";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { baseMetadata } from "@/lib/site-metadata";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,33 +17,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Портфолио | Andival",
-  description: "Мое портфолио разработчика",
-};
+export const metadata = baseMetadata;
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="ru" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <AppProviders>
           <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">{children}</main>
+            <PageTransition>{children}</PageTransition>
             <Footer />
           </div>
-        </ThemeProvider>
+        </AppProviders>
       </body>
     </html>
   );

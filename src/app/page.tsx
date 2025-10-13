@@ -4,10 +4,10 @@ import { FeaturedProjects } from "@/components/sections/featured-projects";
 
 export default function Home() {
   return (
-    <main>
+    <div>
       <Hero />
       <TechStack />
       <FeaturedProjects />
-    </main>
+    </div>
   );
 }
