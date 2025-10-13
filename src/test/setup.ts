@@ -54,6 +54,13 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   takeRecords: vi.fn().mockReturnValue([]),
 }));
 
+// Мок для ResizeObserver (для адаптивного дизайна)
+global.ResizeObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
 // Мок для window.scrollTo
 window.scrollTo = vi.fn();
 

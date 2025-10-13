@@ -99,7 +99,7 @@ describe("Hero", () => {
     });
 
     it("кнопка 'Посмотреть проекты' содержит иконку ArrowRight", () => {
-      const { container } = render(<Hero />);
+      render(<Hero />);
       const button = screen.getByRole("link", {
         name: /Посмотреть проекты/i,
       });
@@ -124,7 +124,7 @@ describe("Hero", () => {
     });
 
     it("кнопка 'Отправить Email' содержит иконку Mail", () => {
-      const { container } = render(<Hero />);
+      render(<Hero />);
       const button = screen.getByRole("link", { name: /Отправить Email/i });
       // Проверяем наличие svg внутри кнопки
       const svg = button.querySelector("svg");
