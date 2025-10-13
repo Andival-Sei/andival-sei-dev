@@ -64,3 +64,9 @@ if (typeof Element !== "undefined") {
   Element.prototype.setPointerCapture = vi.fn();
   Element.prototype.releasePointerCapture = vi.fn();
 }
+
+// Мок для next/image - просто пропускаем (рендерится как обычная img)
+vi.mock("next/image", () => ({
+  __esModule: true,
+  default: () => null,
+}));
