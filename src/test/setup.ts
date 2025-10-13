@@ -56,3 +56,11 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
 
 // Мок для window.scrollTo
 window.scrollTo = vi.fn();
+
+// Моки для Radix UI (hasPointerCapture, scrollIntoView)
+if (typeof Element !== "undefined") {
+  Element.prototype.scrollIntoView = vi.fn();
+  Element.prototype.hasPointerCapture = vi.fn(() => false);
+  Element.prototype.setPointerCapture = vi.fn();
+  Element.prototype.releasePointerCapture = vi.fn();
+}
