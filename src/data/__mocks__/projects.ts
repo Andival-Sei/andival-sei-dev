@@ -32,7 +32,7 @@ export const mockProjects: Project[] = [
     mediaType: "image",
     liveUrl: "https://test-project-2.example.com",
     githubUrl: "https://github.com/test/test-project-2",
-    featured: false,
+    featured: true,
     date: "2024-09-15",
     type: "educational",
   },

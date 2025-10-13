@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ProjectCard } from "@/components/project-card";
 import { getFeaturedProjects } from "@/data/projects";
@@ -10,10 +10,12 @@ import Link from "next/link";
 /**
  * Секция избранных проектов с каруселью
  * Отображает по одному проекту с возможностью переключения
+ * Автоматическая прокрутка каждые 5 секунд с паузой при hover
  */
 export function FeaturedProjects() {
   const projects = getFeaturedProjects();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % projects.length);
@@ -23,8 +25,23 @@ export function FeaturedProjects() {
     setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
+  // Автопрокрутка каждые 5 секунд с паузой при hover
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % projects.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, projects.length]);
+
   return (
-    <section className="container mx-auto px-4 py-20 md:py-32">
+    <section
+      className="container mx-auto px-4 py-20 md:py-32"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       {/* Заголовок секции */}
       <div className="mb-12 md:mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
