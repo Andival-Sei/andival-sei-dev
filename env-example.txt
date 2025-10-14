@@ -1,0 +1,55 @@
+ # =============================================================================
+# КОНФИГУРАЦИЯ САЙТА
+# =============================================================================
+
+# URL сайта (используется для SEO, Open Graph, sitemap)
+# Пример: https://andival-sei.vercel.app
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+
+# Название сайта (используется в метатегах и Open Graph)
+# Пример: Andival-Sei Portfolio
+NEXT_PUBLIC_SITE_NAME=Your Portfolio Name
+
+# =============================================================================
+# КОНТАКТНАЯ ИНФОРМАЦИЯ
+# =============================================================================
+
+# Email для контактов
+# Пример: your.email@example.com
+NEXT_PUBLIC_EMAIL=
+
+# GitHub профиль
+# Пример: https://github.com/yourusername
+NEXT_PUBLIC_GITHUB=
+
+# Telegram
+# Пример: https://t.me/yourusername
+NEXT_PUBLIC_TELEGRAM=
+
+# VK профиль
+# Пример: https://vk.com/yourusername
+NEXT_PUBLIC_VK=
+
+# =============================================================================
+# SEO И ВЕРИФИКАЦИЯ
+# =============================================================================
+
+# Google Search Console verification код
+# Получить: https://search.google.com/search-console
+# Пример: google1234567890abcdef
+NEXT_PUBLIC_GOOGLE_VERIFICATION=
+
+# Yandex Webmaster verification код
+# Получить: https://webmaster.yandex.ru
+# Пример: yandex1234567890abcdef
+NEXT_PUBLIC_YANDEX_VERIFICATION=
+
+# =============================================================================
+# ИНСТРУКЦИИ
+# =============================================================================
+# 1. Скопируйте этот файл как .env.local: cp env-example.txt .env.local
+# 2. Заполните необходимые значения в .env.local
+# 3. Перезапустите dev сервер для применения изменений
+# 
+# ВАЖНО: .env.local не должен попадать в git (добавлен в .gitignore)
+# =============================================================================

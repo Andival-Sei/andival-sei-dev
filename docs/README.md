@@ -88,6 +88,42 @@
 
 ---
 
+## 🛡️ Обработка ошибок
+
+Проект использует многоуровневую систему обработки ошибок:
+
+### 1. **Global Error Boundary**
+
+- `src/app/global-error.tsx` - для критических ошибок на уровне root layout
+- Должен содержать `<html>` и `<body>` теги
+- Показывает минималистичный UI без зависимостей
+
+### 2. **App Error Boundary**
+
+- `src/app/error.tsx` - для ошибок на уровне приложения
+- Наследует стили от layout
+- Предоставляет кнопку "Попробовать снова" и навигацию
+
+### 3. **Route-specific Error Boundaries**
+
+- `src/app/projects/error.tsx` - для списка проектов
+- `src/app/projects/[id]/error.tsx` - для отдельного проекта
+- Контекстно-зависимые сообщения об ошибках
+
+### 4. **Component Error Boundaries**
+
+- `src/components/error-boundary.tsx` - универсальный HOC
+- Для изоляции ошибок в отдельных компонентах
+- Поддерживает кастомный fallback UI
+
+### Loading States
+
+- **Skeleton UI** - `src/components/ui/skeleton.tsx`
+- **ProjectCard Skeleton** - для карточек проектов
+- **Route-specific loaders** - `loading.tsx` файлы для каждого роута
+
+---
+
 ## 📊 Текущий статус проекта
 
 ### Версия: MVP 0.1.0
