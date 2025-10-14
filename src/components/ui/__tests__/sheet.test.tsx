@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   Sheet,
@@ -359,7 +359,7 @@ describe("Sheet", () => {
   describe("Стили", () => {
     it("SheetHeader имеет правильные стили", async () => {
       const user = userEvent.setup();
-      const { container } = render(
+      render(
         <Sheet>
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>

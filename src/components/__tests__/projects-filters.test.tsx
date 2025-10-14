@@ -169,7 +169,7 @@ describe("ProjectsFilters", () => {
       });
 
       it("кнопка содержит иконку Filter", () => {
-        const { container } = render(<ProjectsFilters {...defaultProps} />);
+        render(<ProjectsFilters {...defaultProps} />);
         const button = screen.getByRole("button", { name: /Технологии/i });
         const icon = button.querySelector("svg");
         expect(icon).toBeInTheDocument();

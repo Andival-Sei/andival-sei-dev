@@ -278,9 +278,7 @@ describe("ProjectCard", () => {
       });
 
       it("кнопки содержат правильные иконки", () => {
-        const { container } = render(
-          <ProjectCard project={videoProject} variant="featured" />
-        );
+        render(<ProjectCard project={videoProject} variant="featured" />);
         // ArrowUpRight иконка в кнопке "Посмотреть"
         const viewButton = screen.getByRole("link", { name: /Посмотреть/i });
         const arrowIcon = viewButton.querySelector("svg");

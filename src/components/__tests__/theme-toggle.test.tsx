@@ -3,7 +3,15 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ThemeToggle } from "../theme-toggle";
 import * as nextThemes from "next-themes";
-import type { UseThemeProps } from "next-themes/dist/types";
+
+// Тип для useTheme хука - совместимый с next-themes
+type UseThemeProps = {
+  theme?: string;
+  setTheme: (theme: string | ((prevTheme: string) => string)) => void;
+  themes: string[];
+  resolvedTheme?: string;
+  systemTheme?: "light" | "dark";
+};
 
 describe("ThemeToggle", () => {
   describe("Рендеринг компонента", () => {
