@@ -1,5 +1,20 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+
+// Мокаем environment variables для тестов ПЕРЕД импортом компонента
+vi.mock("@/lib/env", () => ({
+  env: {
+    siteUrl: "https://andival-sei.vercel.app",
+    siteName: "Andival-Sei Portfolio",
+    email: "test@example.com",
+    github: "https://github.com/Andival-Sei",
+    telegram: "https://t.me/Andiewahl",
+    vk: "https://vk.com/andiewahl",
+    googleVerification: undefined,
+    yandexVerification: undefined,
+  },
+}));
+
 import { Footer } from "../footer";
 
 describe("Footer", () => {

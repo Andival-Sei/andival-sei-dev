@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
 import { FaGithub, FaTelegram, FaVk } from "react-icons/fa";
+import { env } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Контакты | Andival-Sei",
@@ -14,28 +15,28 @@ export const metadata: Metadata = {
  * Минималистичный дизайн с email и социальными сетями
  */
 export default function ContactPage() {
-  const email = "freedomdragon777@gmail.com";
+  const email = env.email;
 
   const socialLinks = [
     {
       name: "GitHub",
-      url: "https://github.com/Andival-Sei",
+      url: env.github,
       icon: FaGithub,
       description: "Мои проекты и код",
     },
     {
       name: "Telegram",
-      url: "https://t.me/Andiewahl",
+      url: env.telegram,
       icon: FaTelegram,
       description: "Быстрая связь",
     },
     {
       name: "VK",
-      url: "https://vk.com/andiewahl",
+      url: env.vk,
       icon: FaVk,
       description: "Социальная сеть",
     },
-  ];
+  ].filter((link) => link.url); // Фильтруем пустые ссылки
 
   return (
     <div className="container mx-auto px-4 py-16 md:py-24">

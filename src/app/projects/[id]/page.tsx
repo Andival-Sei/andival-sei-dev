@@ -30,13 +30,35 @@ export async function generateMetadata({
 
   if (!project) {
     return {
-      title: "Проект не найден | Andival-Sei",
+      title: "Проект не найден",
     };
   }
 
   return {
-    title: `${project.title} | Andival-Sei`,
-    description: project.longDescription,
+    title: project.title,
+    description: project.description,
+    openGraph: {
+      title: project.title,
+      description: project.longDescription || project.description,
+      type: "article",
+      images: [
+        {
+          url: project.media,
+          width: 1200,
+          height: 630,
+          alt: project.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.description,
+      images: [project.media],
+    },
+    alternates: {
+      canonical: `/projects/${id}`,
+    },
   };
 }
 

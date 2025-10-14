@@ -1,5 +1,6 @@
 import { ThemeToggle } from "@/components/theme-toggle";
 import { FaGithub, FaTelegram, FaVk } from "react-icons/fa";
+import { env } from "@/lib/env";
 
 /**
  * Футер приложения с социальными сетями, копирайтом и переключателем темы
@@ -8,20 +9,20 @@ export function Footer() {
   const socialLinks = [
     {
       name: "GitHub",
-      url: "https://github.com/Andival-Sei",
+      url: env.github,
       icon: FaGithub,
     },
     {
       name: "Telegram",
-      url: "https://t.me/Andiewahl",
+      url: env.telegram,
       icon: FaTelegram,
     },
     {
       name: "VK",
-      url: "https://vk.com/andiewahl",
+      url: env.vk,
       icon: FaVk,
     },
-  ];
+  ].filter((link) => link.url); // Фильтруем пустые ссылки
 
   return (
     <footer className="border-t">

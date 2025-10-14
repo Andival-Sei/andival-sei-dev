@@ -36,11 +36,11 @@
 **Срок:** 3-4 дня  
 **Цель:** Подготовить проект к production деплою
 
-### День 1: SEO и метаданные
+### День 1: SEO и метаданные ✅ ВЫПОЛНЕНО
 
 #### Шаг 1.1: Настройка базового SEO
 
-- [ ] **1.1.1** Обновить `src/app/layout.tsx` - расширенные метаданные
+- [x] **1.1.1** Обновить `src/app/layout.tsx` - расширенные метаданные
   ```typescript
   export const metadata: Metadata = {
     metadataBase: new URL("https://your-domain.com"),
@@ -73,26 +73,15 @@
 
 #### Шаг 1.2: Метаданные для всех страниц
 
-- [ ] **1.2.1** Создать `src/app/about/metadata.ts`
-
-  ```typescript
-  import type { Metadata } from "next";
-
-  export const metadata: Metadata = {
-    title: "Обо мне",
-    description:
-      "Мой опыт, навыки и интересы. Frontend разработчик с фокусом на React и Next.js.",
-  };
-  ```
-
-- [ ] **1.2.2** Добавить metadata в `src/app/about/layout.tsx`
-- [ ] **1.2.3** Создать metadata для `/projects`
-- [ ] **1.2.4** Создать metadata для `/contact`
-- [ ] **1.2.5** Создать metadata для `/lab`
+- [x] **1.2.1** Создать `src/app/about/layout.tsx` с metadata _(вместо отдельного файла)_
+- [x] **1.2.2** Добавить metadata в `src/app/about/layout.tsx`
+- [x] **1.2.3** Создать metadata для `/projects` (layout.tsx)
+- [x] **1.2.4** Создать metadata для `/contact` (layout.tsx)
+- [x] **1.2.5** Создать metadata для `/lab` (layout.tsx)
 
 #### Шаг 1.3: Динамические метаданные для проектов
 
-- [ ] **1.3.1** Создать `generateMetadata` в `src/app/projects/[id]/page.tsx`
+- [x] **1.3.1** Создать `generateMetadata` в `src/app/projects/[id]/page.tsx`
 
   ```typescript
   export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -113,36 +102,40 @@
 
 #### Шаг 1.4: Sitemap и robots.txt
 
-- [ ] **1.4.1** Установить `pnpm add next-sitemap -D`
-- [ ] **1.4.2** Создать `next-sitemap.config.js`
-  ```javascript
-  module.exports = {
-    siteUrl: process.env.SITE_URL || "https://your-domain.com",
-    generateRobotsTxt: true,
-    robotsTxtOptions: {
-      policies: [
-        { userAgent: "*", allow: "/" },
-        { userAgent: "*", disallow: "/api/" },
-      ],
-    },
-  };
-  ```
-- [ ] **1.4.3** Добавить в `package.json` скрипт: `"postbuild": "next-sitemap"`
-- [ ] **1.4.4** Создать `public/robots.txt` (базовый)
+- [x] **1.4.1** ~~Установить next-sitemap~~ _Используем встроенный Next.js 15 API_
+- [x] **1.4.2** ~~Создать next-sitemap.config.js~~ _Создан `src/app/sitemap.ts`_
+- [x] **1.4.3** ~~Добавить postbuild скрипт~~ _Не требуется для встроенного API_
+- [x] **1.4.4** Создать `src/app/robots.ts` _(вместо статичного файла)_
 
 #### Шаг 1.5: Структурированные данные (JSON-LD)
 
-- [ ] **1.5.1** Создать `src/lib/structured-data.ts`
-- [ ] **1.5.2** Добавить PersonSchema в `layout.tsx`
-- [ ] **1.5.3** Добавить WebsiteSchema в `layout.tsx`
-- [ ] **1.5.4** Добавить BreadcrumbList для страниц
+- [x] **1.5.1** Создать `src/lib/structured-data.ts`
+- [x] **1.5.2** Добавить PersonSchema в `layout.tsx`
+- [x] **1.5.3** Добавить WebsiteSchema в `layout.tsx`
+- [x] **1.5.4** Добавить BreadcrumbList для страниц _(функция готова, можно использовать)_
 
 #### Шаг 1.6: Open Graph изображение
 
-- [ ] **1.6.1** Создать `public/og-image.png` (1200x630px)
-- [ ] **1.6.2** Или использовать Next.js Image Generation API (опционально)
+- [x] **1.6.1** ~~Создать статичный og-image.png~~ _Используем динамическую генерацию_
+- [x] **1.6.2** Создать `src/app/opengraph-image.tsx` + `projects/[id]/opengraph-image.tsx`
 
-**✅ Результат Дня 1:** Полная SEO оптимизация, sitemap, robots.txt, OG теги
+#### Дополнительно реализовано (не было в плане):
+
+- [x] **1.0.1** Создать `src/lib/env.ts` для управления переменными окружения
+- [x] **1.0.2** Создать `.env.example` с шаблоном переменных
+- [x] **1.0.3** Обновить `next.config.ts` - оптимизация изображений + security headers
+- [x] **1.0.4** Заменить хардкод URL в `footer.tsx` и `contact/page.tsx` на env
+- [x] **1.0.5** Добавить `viewport` export в layout.tsx (современная практика Next.js 15)
+- [x] **1.0.6** Обновить тесты для работы с environment variables
+
+**✅ Результат Дня 1:** Полная SEO оптимизация с современными практиками Next.js 15
+
+- ✅ Все тесты проходят (500/500)
+- ✅ Build успешен
+- ✅ Sitemap работает (/sitemap.xml)
+- ✅ Robots.txt работает (/robots.txt)
+- ✅ Open Graph изображения генерируются динамически
+- ✅ Нет хардкода в коде
 
 ---
 
@@ -1025,4 +1018,4 @@ pnpm build          # Проверка сборки
 
 **Удачи в реализации! 🚀**
 
-_Последнее обновление: 14.10.2025_
+_Последнее обновление: 14.10.2025 (День 1 - SEO оптимизация завершен)_

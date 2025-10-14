@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
 
-/**
- * Метаданные для страницы Lab
- */
 export const metadata: Metadata = {
-  title: "Lab | Andival-Sei",
-  description:
-    "Лаборатория экспериментов - страница с интерактивными анимациями и будущими проектами",
+  title: "Лаборатория",
+  description: "Эксперименты, анимации и интерактивные компоненты",
   openGraph: {
-    title: "Lab | Andival-Sei",
-    description: "Лаборатория экспериментов - скоро здесь что-то появится",
+    title: "Лаборатория | Andival-Sei",
+  },
+  alternates: {
+    canonical: "/lab",
   },
 };
 
-/**
- * Layout для страницы Lab
- */
 export default function LabLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

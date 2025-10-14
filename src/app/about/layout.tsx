@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Обо мне | Andival-Sei",
+  title: "Обо мне",
   description:
-    "Frontend разработчик, специализирующийся на React и Next.js. Узнайте больше о моем опыте, навыках и интересах.",
+    "Мой опыт, навыки и интересы. Frontend разработчик с фокусом на React и Next.js.",
   openGraph: {
     title: "Обо мне | Andival-Sei",
-    description:
-      "Frontend разработчик, специализирующийся на React и Next.js. Узнайте больше о моем опыте, навыках и интересах.",
-    type: "website",
+    description: "Мой опыт, навыки и интересы в веб-разработке",
+  },
+  alternates: {
+    canonical: "/about",
   },
 };
 
@@ -17,5 +18,5 @@ export default function AboutLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return children;
 }
