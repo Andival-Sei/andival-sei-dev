@@ -1,5 +1,6 @@
 export const env = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://andival-sei.vercel.app",
+  siteUrl:
+    process.env.NEXT_PUBLIC_SITE_URL || "https://andival-sei-dev.vercel.app",
   siteName: process.env.NEXT_PUBLIC_SITE_NAME || "Andival-Sei Portfolio",
   email: process.env.NEXT_PUBLIC_EMAIL || "",
   github: process.env.NEXT_PUBLIC_GITHUB || "",
