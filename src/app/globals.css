@@ -187,6 +187,14 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  @supports (scrollbar-gutter: stable both-edges) {
+    body[style*="--removed-body-scroll-bar-size"] {
+      padding-right: 0 !important;
+      margin-right: 0 !important;
+    }
   }
 }
 
@@ -231,14 +239,38 @@ canvas {
 /* Hero background animation */
 @layer components {
   .hero-section {
-    overflow: visible;
     isolation: isolate;
+    overflow: clip;
+    overflow-clip-margin: 16%;
+  }
+
+  @supports not (overflow: clip) {
+    .hero-section {
+      overflow: hidden;
+    }
+  }
+
+  .hero-section::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: clamp(8rem, 18vw, 14rem);
+    background: linear-gradient(to bottom, transparent 10%, var(--background) 90%);
+    background: linear-gradient(
+      to bottom,
+      transparent 10%,
+      color-mix(in oklab, var(--background) 70%, transparent) 55%,
+      var(--background) 90%
+    );
+    pointer-events: none;
+    z-index: 0;
   }
 
   .hero-background {
     position: absolute;
     inset: -14% -12% -24% -12%;
-    overflow: visible;
     pointer-events: none;
     --hero-blob-color-a: oklch(0.82 0.05 160 / 0.55);
     --hero-blob-color-b: oklch(0.86 0.03 210 / 0.45);

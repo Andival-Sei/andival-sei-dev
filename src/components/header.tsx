@@ -97,7 +97,10 @@ export function Header() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[280px] sm:w-[320px]">
+              <SheetContent
+                side="right"
+                className="w-full max-w-[20rem] sm:max-w-[22rem]"
+              >
                 <SheetHeader>
                   <SheetTitle>Навигация</SheetTitle>
                 </SheetHeader>
