@@ -1,5 +1,38 @@
-# Игнорировать все файлы, чтобы Vercel не деплоил автоматически
-# Деплой будет происходить только через GitHub Actions
-*
+# Игнорировать только ненужные файлы для деплоя
+# Основные файлы проекта должны остаться
+
+# Документация и конфигурация разработки
+docs/
+.cursor/
+.github/
+*.md
+!README.md
+
+# Тесты и покрытие
+coverage/
+src/**/__tests__/
+src/**/*.test.*
+src/**/*.spec.*
+vitest.config.ts
+src/test/
+
+# Конфигурация разработки
+.env*
+!env-example.txt
+eslint.config.mjs
+.prettierrc
+tsconfig.tsbuildinfo
+
+# Временные файлы
+*.log
+.DS_Store
+Thumbs.db
+
+# Исходники видео (оставляем только оптимизированные)
+public/videos/projects/*.mov
+public/videos/projects/*.avi
+public/videos/projects/*.mkv
+public/videos/projects/*.wmv
+public/videos/projects/*.flv
 
 
