@@ -257,7 +257,11 @@ canvas {
     right: 0;
     bottom: 0;
     height: clamp(8rem, 18vw, 14rem);
-    background: linear-gradient(to bottom, transparent 10%, var(--background) 90%);
+    background: linear-gradient(
+      to bottom,
+      transparent 10%,
+      var(--background) 90%
+    );
     background: linear-gradient(
       to bottom,
       transparent 10%,

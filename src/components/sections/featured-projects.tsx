@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, FolderOpen } from "lucide-react";
 import { ProjectCard } from "@/components/project-card";
 import { getFeaturedProjects } from "@/data/projects";
 import { Button } from "@/components/ui/button";
@@ -17,17 +17,55 @@ export function FeaturedProjects() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Защита от пустого списка проектов
+  if (projects.length === 0) {
+    return (
+      <section className="container mx-auto px-4 py-20 md:py-32">
+        {/* Заголовок секции */}
+        <div className="mb-12 md:mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Избранные проекты
+          </h2>
+          <p className="text-muted-foreground text-base md:text-lg lg:text-xl max-w-2xl mx-auto">
+            Мои лучшие работы, демонстрирующие навыки в React, TypeScript и
+            современной веб-разработке
+          </p>
+        </div>
+
+        {/* Fallback UI для пустого состояния */}
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <FolderOpen className="h-16 w-16 text-muted-foreground/50 mb-6" />
+          <h3 className="text-xl font-semibold mb-2 text-muted-foreground">
+            Избранные проекты скоро появятся
+          </h3>
+          <p className="text-muted-foreground mb-8 max-w-md">
+            В данный момент я работаю над новыми проектами. Пока вы можете
+            посмотреть все мои работы.
+          </p>
+          <Button asChild variant="outline" size="lg">
+            <Link href="/projects">Посмотреть все проекты</Link>
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % projects.length);
+    if (projects.length > 0) {
+      setCurrentIndex((prev) => (prev + 1) % projects.length);
+    }
   };
 
   const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    if (projects.length > 0) {
+      setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    }
   };
 
   // Автопрокрутка каждые 5 секунд с паузой при hover
+  // Защита: запускаем только если есть проекты
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || projects.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % projects.length);

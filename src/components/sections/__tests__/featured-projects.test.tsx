@@ -469,4 +469,90 @@ describe("FeaturedProjects", () => {
       expect(heading).toBeInTheDocument();
     });
   });
+
+  describe("Пустое состояние (empty state)", () => {
+    beforeEach(() => {
+      // Мокаем пустой массив проектов
+      vi.mocked(projectsData.getFeaturedProjects).mockReturnValue([]);
+    });
+
+    it("отображает fallback UI при пустом списке проектов", () => {
+      render(<FeaturedProjects />);
+
+      // Проверяем наличие fallback элементов
+      expect(
+        screen.getByText("Избранные проекты скоро появятся")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/В данный момент я работаю над новыми проектами/i)
+      ).toBeInTheDocument();
+    });
+
+    it("сохраняет заголовок секции при пустом состоянии", () => {
+      render(<FeaturedProjects />);
+
+      const heading = screen.getByRole("heading", {
+        level: 2,
+        name: /Избранные проекты/i,
+      });
+      expect(heading).toBeInTheDocument();
+    });
+
+    it("отображает кнопку перехода на /projects при пустом состоянии", () => {
+      render(<FeaturedProjects />);
+
+      const link = screen.getByRole("link", {
+        name: /Посмотреть все проекты/i,
+      });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute("href", "/projects");
+    });
+
+    it("не отображает карусель и навигацию при пустом состоянии", () => {
+      render(<FeaturedProjects />);
+
+      // Не должно быть стрелок навигации
+      expect(
+        screen.queryByLabelText("Следующий проект")
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText("Предыдущий проект")
+      ).not.toBeInTheDocument();
+
+      // Не должно быть индикаторов
+      expect(
+        screen.queryByRole("button", { name: /Перейти к проекту/ })
+      ).not.toBeInTheDocument();
+
+      // Не должно быть ProjectCard
+      expect(screen.queryByTestId("project-card")).not.toBeInTheDocument();
+    });
+
+    it("не создает таймеры автопрокрутки при пустом состоянии", () => {
+      render(<FeaturedProjects />);
+
+      // Проверяем, что нет активных таймеров
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it("не падает при попытке навигации с пустым массивом", () => {
+      const { container } = render(<FeaturedProjects />);
+
+      // Попытка вызвать события мыши не должна вызывать ошибок
+      const section = container.querySelector("section")!;
+
+      expect(() => {
+        fireEvent.mouseEnter(section);
+        fireEvent.mouseLeave(section);
+      }).not.toThrow();
+    });
+
+    it("отображает иконку FolderOpen в fallback UI", () => {
+      const { container } = render(<FeaturedProjects />);
+
+      // Ищем SVG элемент (иконка FolderOpen)
+      const icon = container.querySelector("svg");
+      expect(icon).toBeInTheDocument();
+    });
+  });
 });
