@@ -17,6 +17,30 @@ export function FeaturedProjects() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  const goToNext = () => {
+    if (projects.length > 0) {
+      setCurrentIndex((prev) => (prev + 1) % projects.length);
+    }
+  };
+
+  const goToPrevious = () => {
+    if (projects.length > 0) {
+      setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    }
+  };
+
+  // Автопрокрутка каждые 5 секунд с паузой при hover
+  // Защита: запускаем только если есть проекты
+  useEffect(() => {
+    if (isPaused || projects.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % projects.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, projects.length]);
+
   // Защита от пустого списка проектов
   if (projects.length === 0) {
     return (
@@ -49,30 +73,6 @@ export function FeaturedProjects() {
       </section>
     );
   }
-
-  const goToNext = () => {
-    if (projects.length > 0) {
-      setCurrentIndex((prev) => (prev + 1) % projects.length);
-    }
-  };
-
-  const goToPrevious = () => {
-    if (projects.length > 0) {
-      setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
-    }
-  };
-
-  // Автопрокрутка каждые 5 секунд с паузой при hover
-  // Защита: запускаем только если есть проекты
-  useEffect(() => {
-    if (isPaused || projects.length === 0) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % projects.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [isPaused, projects.length]);
 
   return (
     <section
