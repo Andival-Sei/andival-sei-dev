@@ -65,11 +65,11 @@
   - [x] Настроить отчеты о покрытии кода
   - [x] Добавить проверку безопасности (CodeQL)
 
-- [ ] **Настроить git hooks**
-  - [ ] Установить husky (`pnpm add -D husky`)
-  - [ ] Настроить pre-commit hook (lint + typecheck)
-  - [ ] Настроить pre-push hook (tests)
-  - [ ] Добавить commitlint для проверки сообщений
+- [x] **Настроить git hooks**
+  - [x] Установить husky (`pnpm add -D husky`)
+  - [x] Настроить pre-commit hook (lint + typecheck)
+  - [x] Настроить pre-push hook (tests)
+  - [x] Добавить commitlint для проверки сообщений
 
 - [ ] **Усилить ESLint конфигурацию**
   - [ ] Добавить `@typescript-eslint/recommended`
