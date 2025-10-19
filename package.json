@@ -9,10 +9,12 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "ci": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm test:run && pnpm build"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.8.0",

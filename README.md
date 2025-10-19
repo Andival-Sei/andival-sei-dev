@@ -2,6 +2,9 @@
 
 Современное портфолио Frontend разработчика, построенное на Next.js 15 с фокусом на производительность, SEO и доступность.
 
+[![CI](https://github.com/Andival-Sei/andival-sei-dev/workflows/CI/badge.svg)](https://github.com/Andival-Sei/andival-sei-dev/actions)
+[![codecov](https://codecov.io/gh/Andival-Sei/andival-sei-dev/branch/main/graph/badge.svg)](https://codecov.io/gh/Andival-Sei/andival-sei-dev)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.1.0-61DAFB)](https://react.dev/)
