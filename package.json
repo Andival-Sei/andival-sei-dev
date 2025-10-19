@@ -15,7 +15,8 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "ci": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm test:run && pnpm build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format:fix": "pnpm format && git add . && git commit -m 'style: автоматическое форматирование' || true"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.8.0",
@@ -69,7 +70,7 @@
       "prettier --write",
       "bash -c 'tsc --noEmit'"
     ],
-    "*.{js,jsx,json,css,md}": [
+    "*.{js,jsx,json,css,md,yml,yaml}": [
       "prettier --write"
     ]
   }
