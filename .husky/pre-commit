@@ -1,5 +1,1 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Запуск lint-staged для проверки staged файлов
 npx lint-staged

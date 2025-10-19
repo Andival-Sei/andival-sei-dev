@@ -1,5 +1,1 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Проверка формата сообщения коммита
 npx --no -- commitlint --edit $1
