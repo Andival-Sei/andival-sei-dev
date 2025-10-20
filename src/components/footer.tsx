@@ -1,5 +1,6 @@
-import { ThemeToggle } from "@/components/theme-toggle";
 import { FaGithub, FaTelegram, FaVk } from "react-icons/fa";
+
+import { ThemeToggle } from "@/components/theme-toggle";
 import { env } from "@/lib/env";
 
 /**

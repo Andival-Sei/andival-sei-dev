@@ -1,7 +1,9 @@
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { ProjectCard } from "../project-card";
+import { describe, it, expect } from "vitest";
+
 import { mockProjects } from "@/data/__mocks__/projects";
+
+import { ProjectCard } from "../project-card";
 
 describe("ProjectCard", () => {
   const videoProject = mockProjects[0]; // Test Project Video

@@ -71,11 +71,11 @@
   - [x] Настроить pre-push hook (tests)
   - [x] Добавить commitlint для проверки сообщений
 
-- [ ] **Усилить ESLint конфигурацию**
-  - [ ] Добавить `@typescript-eslint/recommended`
-  - [ ] Добавить `eslint-plugin-jsx-a11y`
-  - [ ] Добавить `eslint-plugin-import`
-  - [ ] Настроить строгие правила доступности
+- [x] **Усилить ESLint конфигурацию**
+  - [x] Добавить `@typescript-eslint/recommended`
+  - [x] Добавить `eslint-plugin-jsx-a11y`
+  - [x] Добавить `eslint-plugin-import`
+  - [x] Настроить строгие правила доступности
 
 - [ ] **Настроить защиту ветки main**
   - [ ] Требовать успешного CI перед merge

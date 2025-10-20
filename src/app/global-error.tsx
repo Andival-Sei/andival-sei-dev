@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { Button } from "@/components/ui/button";
 
 /**
@@ -21,7 +22,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html>
+    <html lang="ru">
       <body>
         <div className="min-h-screen flex items-center justify-center px-4">
           <div className="text-center space-y-6 max-w-md">

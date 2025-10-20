@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
-import { env } from "@/lib/env";
+
 import { projects } from "@/data/projects";
+import { env } from "@/lib/env";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = env.siteUrl;

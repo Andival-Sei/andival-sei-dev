@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { Header } from "@/components/header";
+
 import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 import { env } from "@/lib/env";
 import { getPersonSchema, getWebsiteSchema } from "@/lib/structured-data";
 import "./globals.css";

@@ -1,10 +1,11 @@
 "use client";
 
+import { Mail, MapPin, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, ExternalLink } from "lucide-react";
 import {
   personalInfo,
   timelineEvents,

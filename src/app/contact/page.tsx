@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
+import type { Metadata } from "next";
 import { FaGithub, FaTelegram, FaVk } from "react-icons/fa";
+
+import { Button } from "@/components/ui/button";
 import { env } from "@/lib/env";
 
 export const metadata: Metadata = {

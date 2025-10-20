@@ -1,6 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { describe, it, expect, vi } from "vitest";
+
 import { Input } from "../input";
 
 describe("Input", () => {
@@ -284,6 +285,7 @@ describe("Input", () => {
     });
 
     it("поддерживает autoFocus атрибут", () => {
+      // eslint-disable-next-line jsx-a11y/no-autofocus
       render(<Input autoFocus />);
       const input = screen.getByRole("textbox");
       expect(input).toHaveFocus();

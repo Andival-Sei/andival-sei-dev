@@ -1,5 +1,5 @@
-import { createOGImage } from "@/lib/og-template";
 import { projects } from "@/data/projects";
+import { createOGImage } from "@/lib/og-template";
 
 export const runtime = "edge";
 export const alt = "Проекты | Andival-Sei";

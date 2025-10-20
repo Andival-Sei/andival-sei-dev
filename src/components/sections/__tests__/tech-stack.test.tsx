@@ -1,7 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import TechStack from "../tech-stack";
+import { describe, it, expect, beforeEach, vi } from "vitest";
+
 import { technologies } from "@/data/technologies";
+
+import TechStack from "../tech-stack";
 
 // Мок window.innerWidth для responsive тестов
 const mockInnerWidth = (width: number) => {

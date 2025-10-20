@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+
 import { ProjectCard } from "@/components/project-card";
 import { ProjectsFilters } from "@/components/projects-filters";
 import { projects, getAllTechnologies, getProjectTypes } from "@/data/projects";

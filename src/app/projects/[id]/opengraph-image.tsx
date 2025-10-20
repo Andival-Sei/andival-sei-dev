@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+
 import { getProjectById } from "@/data/projects";
 
 export const runtime = "edge";

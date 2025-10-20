@@ -1,12 +1,12 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
 import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { getProjectById, projects } from "@/data/projects";
-import { getMediaType } from "@/data/projects";
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { getProjectById, projects, getMediaType } from "@/data/projects";
 
 /**
  * Генерация статических путей для всех проектов

@@ -1,5 +1,5 @@
-import { createOGImage } from "@/lib/og-template";
 import { env } from "@/lib/env";
+import { createOGImage } from "@/lib/og-template";
 
 export const runtime = "edge";
 export const alt = "Контакты | Andival-Sei";

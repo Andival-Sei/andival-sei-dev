@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
 
 // Мокаем environment variables для тестов ПЕРЕД импортом компонента
 vi.mock("@/lib/env", () => ({

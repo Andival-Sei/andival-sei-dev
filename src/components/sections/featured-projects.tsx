@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, FolderOpen } from "lucide-react";
-import { ProjectCard } from "@/components/project-card";
-import { getFeaturedProjects } from "@/data/projects";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+
+import { ProjectCard } from "@/components/project-card";
+import { Button } from "@/components/ui/button";
+import { getFeaturedProjects } from "@/data/projects";
 
 /**
  * Секция избранных проектов с каруселью

@@ -1,9 +1,11 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 import { render, screen, act, fireEvent } from "@testing-library/react";
-import { FeaturedProjects } from "../featured-projects";
-import * as projectsData from "@/data/projects";
+import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
+
 import { getMockFeaturedProjects } from "@/data/__mocks__/projects";
+import * as projectsData from "@/data/projects";
 import type { Project } from "@/data/projects";
+
+import { FeaturedProjects } from "../featured-projects";
 
 // Моки
 vi.mock("@/data/projects", () => ({
