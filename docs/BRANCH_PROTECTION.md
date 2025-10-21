@@ -29,6 +29,11 @@
 
 #### ✅ Обязательные настройки
 
+**Require a pull request before merging**
+
+- ☑️ **Включить эту опцию** (критически важно!)
+- Это блокирует прямые push в main и требует PR для всех изменений
+
 **Require status checks to pass before merging**
 
 - ☑️ Включить эту опцию
