@@ -115,7 +115,9 @@ describe("FeaturedProjects", () => {
 
   describe("Карусель и навигация", () => {
     it("переключается на следующий проект при клике на 'Следующий проект'", async () => {
-      render(<FeaturedProjects />);
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Проверяем начальное состояние (проект 0)
       let projectCard = screen.getByTestId("project-card");
@@ -140,7 +142,9 @@ describe("FeaturedProjects", () => {
     });
 
     it("переключается на предыдущий проект при клике на 'Предыдущий проект'", async () => {
-      render(<FeaturedProjects />);
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Кликаем на кнопку "Предыдущий проект" (desktop версия)
       const prevButtons = screen.getAllByLabelText("Предыдущий проект");
@@ -158,7 +162,9 @@ describe("FeaturedProjects", () => {
     });
 
     it("возвращается к первому проекту после последнего (цикличность вперед)", async () => {
-      render(<FeaturedProjects />);
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       const nextButtons = screen.getAllByLabelText("Следующий проект");
 
@@ -177,7 +183,9 @@ describe("FeaturedProjects", () => {
     });
 
     it("переходит к последнему проекту перед первым (цикличность назад)", async () => {
-      render(<FeaturedProjects />);
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       const prevButtons = screen.getAllByLabelText("Предыдущий проект");
 
@@ -193,8 +201,10 @@ describe("FeaturedProjects", () => {
       );
     });
 
-    it("отображает 3 точки-индикатора", () => {
-      render(<FeaturedProjects />);
+    it("отображает 3 точки-индикатора", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
       const indicators = screen.getAllByRole("button", {
         name: /Перейти к проекту \d/,
       });
@@ -202,7 +212,9 @@ describe("FeaturedProjects", () => {
     });
 
     it("переключает проект при клике на индикатор", async () => {
-      render(<FeaturedProjects />);
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Кликаем на индикатор третьего проекта
       const thirdIndicator = screen.getByRole("button", {
@@ -220,8 +232,10 @@ describe("FeaturedProjects", () => {
       );
     });
 
-    it("активный индикатор имеет класс bg-primary", () => {
-      render(<FeaturedProjects />);
+    it("активный индикатор имеет класс bg-primary", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Находим все индикаторы
       const indicators = screen.getAllByRole("button", {
@@ -236,8 +250,10 @@ describe("FeaturedProjects", () => {
       expect(indicators[2]).toHaveClass("bg-muted-foreground/30");
     });
 
-    it("активный индикатор шире остальных (w-8 vs w-2)", () => {
-      render(<FeaturedProjects />);
+    it("активный индикатор шире остальных (w-8 vs w-2)", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       const indicators = screen.getAllByRole("button", {
         name: /Перейти к проекту \d/,
@@ -254,7 +270,9 @@ describe("FeaturedProjects", () => {
 
   describe("Автопрокрутка", () => {
     it("автоматически переключается на следующий проект каждые 5 секунд", async () => {
-      render(<FeaturedProjects />);
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Начальный проект 0
       let projectCard = screen.getByTestId("project-card");
@@ -288,8 +306,12 @@ describe("FeaturedProjects", () => {
     });
 
     it("останавливает автопрокрутку при наведении мыши (mouseenter)", async () => {
-      const { container } = render(<FeaturedProjects />);
-      const section = container.querySelector("section")!;
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
+      const section = container!.querySelector("section")!;
 
       // Начальный проект 0
       let projectCard = screen.getByTestId("project-card");
@@ -317,8 +339,12 @@ describe("FeaturedProjects", () => {
     });
 
     it("возобновляет автопрокрутку при уходе мыши (mouseleave)", async () => {
-      const { container } = render(<FeaturedProjects />);
-      const section = container.querySelector("section")!;
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
+      const section = container!.querySelector("section")!;
 
       // Наводим мышь
       await act(async () => {
@@ -343,14 +369,18 @@ describe("FeaturedProjects", () => {
       );
     });
 
-    it("очищает таймер при unmount компонента", () => {
-      const { unmount } = render(<FeaturedProjects />);
+    it("очищает таймер при unmount компонента", async () => {
+      let unmount: () => void;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        unmount = result.unmount;
+      });
 
       // Проверяем, что таймер создан
       expect(vi.getTimerCount()).toBeGreaterThan(0);
 
       // Размонтируем компонент
-      unmount();
+      unmount!();
 
       // Все таймеры должны быть очищены
       vi.runOnlyPendingTimers();
@@ -359,11 +389,15 @@ describe("FeaturedProjects", () => {
   });
 
   describe("Адаптивность", () => {
-    it("desktop стрелки имеют класс hidden lg:flex", () => {
-      const { container } = render(<FeaturedProjects />);
+    it("desktop стрелки имеют класс hidden lg:flex", async () => {
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
 
       // Desktop стрелки находятся вне карусели с классами hidden lg:flex
-      const desktopButtons = container.querySelectorAll(
+      const desktopButtons = container!.querySelectorAll(
         "button.hidden.lg\\:flex"
       );
 
@@ -371,8 +405,10 @@ describe("FeaturedProjects", () => {
       expect(desktopButtons.length).toBe(2);
     });
 
-    it("мобильные стрелки имеют класс lg:hidden", () => {
-      render(<FeaturedProjects />);
+    it("мобильные стрелки имеют класс lg:hidden", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Мобильные стрелки находятся внизу с классом lg:hidden
       const allButtons = screen.getAllByRole("button");
@@ -384,11 +420,15 @@ describe("FeaturedProjects", () => {
       expect(mobileButtons.length).toBe(2);
     });
 
-    it("мобильные стрелки находятся рядом с индикаторами", () => {
-      const { container } = render(<FeaturedProjects />);
+    it("мобильные стрелки находятся рядом с индикаторами", async () => {
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
 
       // Находим контейнер с индикаторами
-      const indicatorsContainer = container.querySelector(".flex.gap-2");
+      const indicatorsContainer = container!.querySelector(".flex.gap-2");
       expect(indicatorsContainer).toBeInTheDocument();
 
       // Проверяем, что родительский элемент содержит мобильные кнопки
@@ -396,13 +436,17 @@ describe("FeaturedProjects", () => {
       expect(parentDiv).toHaveClass("flex", "items-center", "justify-center");
     });
 
-    it("desktop стрелки позиционированы абсолютно вне карточки", () => {
-      const { container } = render(<FeaturedProjects />);
+    it("desktop стрелки позиционированы абсолютно вне карточки", async () => {
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
 
-      const desktopPrevButton = container.querySelector(
+      const desktopPrevButton = container!.querySelector(
         "button.absolute.left-0.-translate-x-16"
       );
-      const desktopNextButton = container.querySelector(
+      const desktopNextButton = container!.querySelector(
         "button.absolute.right-0.translate-x-16"
       );
 
@@ -412,16 +456,20 @@ describe("FeaturedProjects", () => {
   });
 
   describe("Ссылки и навигация", () => {
-    it("отображает кнопку 'Посмотреть все проекты'", () => {
-      render(<FeaturedProjects />);
+    it("отображает кнопку 'Посмотреть все проекты'", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
       const button = screen.getByRole("link", {
         name: /Посмотреть все проекты/i,
       });
       expect(button).toBeInTheDocument();
     });
 
-    it("ссылка ведет на страницу /projects", () => {
-      render(<FeaturedProjects />);
+    it("ссылка ведет на страницу /projects", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
       const link = screen.getByRole("link", {
         name: /Посмотреть все проекты/i,
       });
@@ -430,8 +478,10 @@ describe("FeaturedProjects", () => {
   });
 
   describe("Accessibility", () => {
-    it("стрелки имеют aria-labels для навигации", () => {
-      render(<FeaturedProjects />);
+    it("стрелки имеют aria-labels для навигации", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       const nextButtons = screen.getAllByLabelText("Следующий проект");
       const prevButtons = screen.getAllByLabelText("Предыдущий проект");
@@ -442,8 +492,10 @@ describe("FeaturedProjects", () => {
       expect(prevButtons).toHaveLength(2);
     });
 
-    it("индикаторы имеют aria-labels с номером проекта", () => {
-      render(<FeaturedProjects />);
+    it("индикаторы имеют aria-labels с номером проекта", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       expect(
         screen.getByRole("button", { name: "Перейти к проекту 1" })
@@ -456,14 +508,20 @@ describe("FeaturedProjects", () => {
       ).toBeInTheDocument();
     });
 
-    it("использует семантичный тег section для секции", () => {
-      const { container } = render(<FeaturedProjects />);
-      const section = container.querySelector("section");
+    it("использует семантичный тег section для секции", async () => {
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
+      const section = container!.querySelector("section");
       expect(section).toBeInTheDocument();
     });
 
-    it("заголовок является H2 для иерархии", () => {
-      render(<FeaturedProjects />);
+    it("заголовок является H2 для иерархии", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
       const heading = screen.getByRole("heading", {
         level: 2,
         name: /Избранные проекты/i,
@@ -478,8 +536,10 @@ describe("FeaturedProjects", () => {
       vi.mocked(projectsData.getFeaturedProjects).mockReturnValue([]);
     });
 
-    it("отображает fallback UI при пустом списке проектов", () => {
-      render(<FeaturedProjects />);
+    it("отображает fallback UI при пустом списке проектов", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Проверяем наличие fallback элементов
       expect(
@@ -490,8 +550,10 @@ describe("FeaturedProjects", () => {
       ).toBeInTheDocument();
     });
 
-    it("сохраняет заголовок секции при пустом состоянии", () => {
-      render(<FeaturedProjects />);
+    it("сохраняет заголовок секции при пустом состоянии", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       const heading = screen.getByRole("heading", {
         level: 2,
@@ -500,8 +562,10 @@ describe("FeaturedProjects", () => {
       expect(heading).toBeInTheDocument();
     });
 
-    it("отображает кнопку перехода на /projects при пустом состоянии", () => {
-      render(<FeaturedProjects />);
+    it("отображает кнопку перехода на /projects при пустом состоянии", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       const link = screen.getByRole("link", {
         name: /Посмотреть все проекты/i,
@@ -510,8 +574,10 @@ describe("FeaturedProjects", () => {
       expect(link).toHaveAttribute("href", "/projects");
     });
 
-    it("не отображает карусель и навигацию при пустом состоянии", () => {
-      render(<FeaturedProjects />);
+    it("не отображает карусель и навигацию при пустом состоянии", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Не должно быть стрелок навигации
       expect(
@@ -530,18 +596,24 @@ describe("FeaturedProjects", () => {
       expect(screen.queryByTestId("project-card")).not.toBeInTheDocument();
     });
 
-    it("не создает таймеры автопрокрутки при пустом состоянии", () => {
-      render(<FeaturedProjects />);
+    it("не создает таймеры автопрокрутки при пустом состоянии", async () => {
+      await act(async () => {
+        render(<FeaturedProjects />);
+      });
 
       // Проверяем, что нет активных таймеров
       expect(vi.getTimerCount()).toBe(0);
     });
 
-    it("не падает при попытке навигации с пустым массивом", () => {
-      const { container } = render(<FeaturedProjects />);
+    it("не падает при попытке навигации с пустым массивом", async () => {
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
 
       // Попытка вызвать события мыши не должна вызывать ошибок
-      const section = container.querySelector("section")!;
+      const section = container!.querySelector("section")!;
 
       expect(() => {
         fireEvent.mouseEnter(section);
@@ -549,11 +621,15 @@ describe("FeaturedProjects", () => {
       }).not.toThrow();
     });
 
-    it("отображает иконку FolderOpen в fallback UI", () => {
-      const { container } = render(<FeaturedProjects />);
+    it("отображает иконку FolderOpen в fallback UI", async () => {
+      let container: HTMLElement;
+      await act(async () => {
+        const result = render(<FeaturedProjects />);
+        container = result.container;
+      });
 
       // Ищем SVG элемент (иконка FolderOpen)
-      const icon = container.querySelector("svg");
+      const icon = container!.querySelector("svg");
       expect(icon).toBeInTheDocument();
     });
   });

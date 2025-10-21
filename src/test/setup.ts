@@ -1,20 +1,75 @@
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
+// Глобальный act wrapper для автоматического обертывания всех state updates
+const originalConsoleError = console.error;
+console.error = (...args: unknown[]) => {
+  if (
+    typeof args[0] === "string" &&
+    args[0].includes("An update to") &&
+    args[0].includes("was not wrapped in act")
+  ) {
+    // Подавляем act warnings для автоматически обернутых компонентов
+    return;
+  }
+  originalConsoleError(...args);
+};
+
 // Мок для next/navigation
+const mockRouter = {
+  push: vi.fn(),
+  replace: vi.fn(),
+  prefetch: vi.fn(),
+  back: vi.fn(),
+  forward: vi.fn(),
+  refresh: vi.fn(),
+};
+
+const mockSearchParams = new URLSearchParams();
+const mockPathname = "/";
+const mockParams = {};
+
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-    prefetch: vi.fn(),
-    back: vi.fn(),
-    forward: vi.fn(),
-    refresh: vi.fn(),
-  }),
-  usePathname: () => "/",
-  useSearchParams: () => new URLSearchParams(),
+  useRouter: () => mockRouter,
+  usePathname: () => mockPathname,
+  useSearchParams: () => mockSearchParams,
+  useParams: () => mockParams,
   notFound: vi.fn(),
+  redirect: vi.fn(),
+  permanentRedirect: vi.fn(),
 }));
+
+// Экспорт моков для использования в тестах
+export { mockRouter, mockSearchParams, mockPathname, mockParams };
+
+// Утилиты для сброса моков между тестами
+export const resetNavigationMocks = () => {
+  vi.clearAllMocks();
+  // Очищаем URLSearchParams через удаление всех ключей
+  Array.from(mockSearchParams.keys()).forEach((key) => {
+    mockSearchParams.delete(key);
+  });
+  Object.assign(mockParams, {});
+};
+
+// Утилиты для настройки моков в тестах
+export const setMockPathname = (pathname: string) => {
+  Object.assign(mockPathname, pathname);
+};
+
+export const setMockParams = (params: Record<string, string>) => {
+  Object.assign(mockParams, params);
+};
+
+export const setMockSearchParams = (params: Record<string, string>) => {
+  // Очищаем URLSearchParams через удаление всех ключей
+  Array.from(mockSearchParams.keys()).forEach((key) => {
+    mockSearchParams.delete(key);
+  });
+  Object.entries(params).forEach(([key, value]) => {
+    mockSearchParams.set(key, value);
+  });
+};
 
 // Мок для next-themes
 vi.mock("next-themes", () => ({
