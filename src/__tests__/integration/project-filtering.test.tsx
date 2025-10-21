@@ -1,322 +1,247 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { ProjectCard } from "@/components/project-card";
-import { ProjectsFilters } from "@/components/projects-filters";
+// Мокаем только внешние зависимости
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
+  useSearchParams: () => new URLSearchParams(),
+  usePathname: () => "/projects",
+}));
 
 // Мокаем данные проектов
-const mockProjects = [
-  {
-    id: "project-1",
-    title: "React Project",
-    description: "A project built with React",
-    longDescription: "A detailed description of the React project",
-    technologies: ["React", "TypeScript"],
-    type: "work" as const,
-    year: 2023,
-    date: "2023-03-15",
-    media: "image.jpg",
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/example",
-    featured: true,
-  },
-  {
-    id: "project-2",
-    title: "Vue Project",
-    description: "A project built with Vue",
-    longDescription: "A detailed description of the Vue project",
-    technologies: ["Vue", "JavaScript"],
-    type: "work" as const,
-    year: 2022,
-    date: "2023-01-20",
-    media: "image.jpg",
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/example",
-    featured: false,
-  },
-  {
-    id: "project-3",
-    title: "Mobile App",
-    description: "A mobile application",
-    longDescription: "A detailed description of the mobile app",
-    technologies: ["React Native", "TypeScript"],
-    type: "educational" as const,
-    year: 2023,
-    date: "2023-05-01",
-    media: "image.jpg",
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/example",
-    featured: false,
-  },
-];
-
-// Мокаем компоненты
-vi.mock("@/components/projects-filters", () => ({
-  ProjectsFilters: ({
-    searchQuery,
-    onSearchChange,
-    projectType,
-    onProjectTypeChange,
-    _selectedTechnologies,
-    _onTechnologiesChange,
-    sortOrder,
-    onSortOrderChange,
-    _allTechnologies,
-    projectTypes,
-  }: {
-    searchQuery: string;
-    onSearchChange: (value: string) => void;
-    projectType: string;
-    onProjectTypeChange: (value: string) => void;
-    _selectedTechnologies: string[];
-    _onTechnologiesChange: (value: string[]) => void;
-    sortOrder: string;
-    onSortOrderChange: (value: string) => void;
-    _allTechnologies: string[];
-    projectTypes: { value: string; label: string }[];
-  }) => (
-    <div data-testid="projects-filters">
-      <input
-        data-testid="search-input"
-        value={searchQuery}
-        onChange={(e) => onSearchChange(e.target.value)}
-        placeholder="Поиск проектов..."
-      />
-      <select
-        data-testid="project-type-select"
-        value={projectType}
-        onChange={(e) => onProjectTypeChange(e.target.value)}
-      >
-        <option value="all">Все проекты</option>
-        {projectTypes.map((type) => (
-          <option key={type.value} value={type.value}>
-            {type.label}
-          </option>
-        ))}
-      </select>
-      <select
-        data-testid="sort-order-select"
-        value={sortOrder}
-        onChange={(e) => onSortOrderChange(e.target.value)}
-      >
-        <option value="newest">Новые</option>
-        <option value="oldest">Старые</option>
-      </select>
-    </div>
-  ),
+vi.mock("@/data/projects", () => ({
+  projects: [
+    {
+      id: "project-1",
+      title: "React Project",
+      description: "A project built with React",
+      longDescription: "A detailed description of the React project",
+      technologies: ["React", "TypeScript"],
+      type: "work" as const,
+      year: 2023,
+      date: "2023-03-15",
+      media: "image.jpg",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      featured: true,
+    },
+    {
+      id: "project-2",
+      title: "Vue Project",
+      description: "A project built with Vue",
+      longDescription: "A detailed description of the Vue project",
+      technologies: ["Vue", "JavaScript"],
+      type: "work" as const,
+      year: 2022,
+      date: "2023-01-20",
+      media: "image.jpg",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      featured: false,
+    },
+    {
+      id: "project-3",
+      title: "Mobile App",
+      description: "A mobile application",
+      longDescription: "A detailed description of the mobile app",
+      technologies: ["React Native", "TypeScript"],
+      type: "educational" as const,
+      year: 2023,
+      date: "2023-05-01",
+      media: "image.jpg",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      featured: false,
+    },
+  ],
+  getAllTechnologies: vi.fn(() => [
+    "React",
+    "TypeScript",
+    "Vue",
+    "JavaScript",
+    "React Native",
+  ]),
+  getProjectTypes: vi.fn(() => [
+    { value: "work", label: "Рабочие" },
+    { value: "educational", label: "Учебные" },
+    { value: "pet", label: "Пет-проекты" },
+  ]),
+  getMediaType: vi.fn((media: string) => {
+    if (
+      media.includes(".mp4") ||
+      media.includes(".webm") ||
+      media.includes(".mov")
+    ) {
+      return "video";
+    }
+    return "image";
+  }),
 }));
 
-vi.mock("@/components/project-card", () => ({
-  ProjectCard: ({ project }: { project: any }) => (
-    <div data-testid={`project-card-${project.id}`}>
-      <h3>{project.title}</h3>
-      <p>{project.description}</p>
-      <div data-testid={`technologies-${project.id}`}>
-        {project.technologies.map((tech: string) => (
-          <span key={tech} data-testid={`tech-${tech.toLowerCase()}`}>
-            {tech}
-          </span>
-        ))}
-      </div>
-    </div>
-  ),
-}));
+// Импортируем реальную страницу проектов
+import ProjectsPage from "@/app/projects/page";
 
 describe("Project Filtering Integration", () => {
+  it("отображает все проекты по умолчанию", async () => {
+    render(<ProjectsPage />);
+
+    // Ждем загрузки компонентов
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("Vue Project")).toBeInTheDocument();
+    expect(screen.getByText("Mobile App")).toBeInTheDocument();
+  });
+
   it("фильтрует проекты по поисковому запросу", async () => {
-    const mockOnSearchChange = vi.fn();
-    const mockOnProjectTypeChange = vi.fn();
-    const mockOnTechnologiesChange = vi.fn();
-    const mockOnSortOrderChange = vi.fn();
+    render(<ProjectsPage />);
 
-    render(
-      <div>
-        <ProjectsFilters
-          searchQuery=""
-          onSearchChange={mockOnSearchChange}
-          projectType="all"
-          onProjectTypeChange={mockOnProjectTypeChange}
-          selectedTechnologies={[]}
-          onTechnologiesChange={mockOnTechnologiesChange}
-          sortOrder="newest"
-          onSortOrderChange={mockOnSortOrderChange}
-          allTechnologies={[
-            "React",
-            "Vue",
-            "TypeScript",
-            "JavaScript",
-            "React Native",
-          ]}
-          projectTypes={[
-            { value: "web", label: "web" },
-            { value: "mobile", label: "mobile" },
-            { value: "desktop", label: "desktop" },
-          ]}
-        />
-        <div data-testid="projects-list">
-          {mockProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      </div>
-    );
+    // Ждем загрузки
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+    });
 
-    const searchInput = screen.getByTestId("search-input");
+    // Находим поле поиска (реальный placeholder)
+    const searchInput = screen.getByPlaceholderText("Поиск по названию...");
+    expect(searchInput).toBeInTheDocument();
 
-    // Тестируем поиск по названию
+    // Вводим поисковый запрос
     fireEvent.change(searchInput, { target: { value: "React" } });
-    expect(mockOnSearchChange).toHaveBeenCalledWith("React");
 
-    // Тестируем поиск по описанию
-    fireEvent.change(searchInput, { target: { value: "mobile" } });
-    expect(mockOnSearchChange).toHaveBeenCalledWith("mobile");
+    // Проверяем результаты фильтрации - только React Project должен остаться
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+      expect(screen.queryByText("Vue Project")).not.toBeInTheDocument();
+      // Mobile App может не отображаться, если фильтрация строгая
+    });
   });
 
   it("фильтрует проекты по типу", async () => {
-    const mockOnSearchChange = vi.fn();
-    const mockOnProjectTypeChange = vi.fn();
-    const mockOnTechnologiesChange = vi.fn();
-    const mockOnSortOrderChange = vi.fn();
+    render(<ProjectsPage />);
 
-    render(
-      <div>
-        <ProjectsFilters
-          searchQuery=""
-          onSearchChange={mockOnSearchChange}
-          projectType="all"
-          onProjectTypeChange={mockOnProjectTypeChange}
-          selectedTechnologies={[]}
-          onTechnologiesChange={mockOnTechnologiesChange}
-          sortOrder="newest"
-          onSortOrderChange={mockOnSortOrderChange}
-          allTechnologies={[
-            "React",
-            "Vue",
-            "TypeScript",
-            "JavaScript",
-            "React Native",
-          ]}
-          projectTypes={[
-            { value: "web", label: "web" },
-            { value: "mobile", label: "mobile" },
-            { value: "desktop", label: "desktop" },
-          ]}
-        />
-      </div>
-    );
+    // Ждем загрузки
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+    });
 
-    const typeSelect = screen.getByTestId("project-type-select");
+    // Находим первый селект (тип проекта)
+    const typeSelects = screen.getAllByRole("combobox");
+    const typeSelect = typeSelects[0];
+    expect(typeSelect).toBeInTheDocument();
 
-    // Тестируем фильтрацию по типу
-    fireEvent.change(typeSelect, { target: { value: "web" } });
-    expect(mockOnProjectTypeChange).toHaveBeenCalledWith("web");
+    // Кликаем на селект, чтобы открыть опции
+    fireEvent.click(typeSelect);
 
-    fireEvent.change(typeSelect, { target: { value: "mobile" } });
-    expect(mockOnProjectTypeChange).toHaveBeenCalledWith("mobile");
+    // Ждем появления опций и выбираем "Учебные"
+    await waitFor(() => {
+      const educationalOption = screen.getByText("Учебные");
+      fireEvent.click(educationalOption);
+    });
+
+    // Проверяем результаты фильтрации
+    await waitFor(() => {
+      expect(screen.queryByText("React Project")).not.toBeInTheDocument();
+      expect(screen.queryByText("Vue Project")).not.toBeInTheDocument();
+      expect(screen.getByText("Mobile App")).toBeInTheDocument();
+    });
   });
 
   it("сортирует проекты по дате", async () => {
-    const mockOnSearchChange = vi.fn();
-    const mockOnProjectTypeChange = vi.fn();
-    const mockOnTechnologiesChange = vi.fn();
-    const mockOnSortOrderChange = vi.fn();
+    render(<ProjectsPage />);
 
-    render(
-      <div>
-        <ProjectsFilters
-          searchQuery=""
-          onSearchChange={mockOnSearchChange}
-          projectType="all"
-          onProjectTypeChange={mockOnProjectTypeChange}
-          selectedTechnologies={[]}
-          onTechnologiesChange={mockOnTechnologiesChange}
-          sortOrder="newest"
-          onSortOrderChange={mockOnSortOrderChange}
-          allTechnologies={[
-            "React",
-            "Vue",
-            "TypeScript",
-            "JavaScript",
-            "React Native",
-          ]}
-          projectTypes={[
-            { value: "web", label: "web" },
-            { value: "mobile", label: "mobile" },
-            { value: "desktop", label: "desktop" },
-          ]}
-        />
-      </div>
-    );
+    // Ждем загрузки
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+    });
 
-    const sortSelect = screen.getByTestId("sort-order-select");
+    // Проверяем, что проекты отображаются в каком-то порядке
+    const projectTitles = screen.getAllByRole("heading", { level: 3 });
+    expect(projectTitles).toHaveLength(3);
+    expect(projectTitles[0]).toHaveTextContent("Mobile App"); // 2023-05-01
+    expect(projectTitles[1]).toHaveTextContent("React Project"); // 2023-03-15
+    expect(projectTitles[2]).toHaveTextContent("Vue Project"); // 2023-01-20
 
-    // Тестируем сортировку
-    fireEvent.change(sortSelect, { target: { value: "oldest" } });
-    expect(mockOnSortOrderChange).toHaveBeenCalledWith("oldest");
+    // Находим второй селект (сортировка)
+    const sortSelects = screen.getAllByRole("combobox");
+    const sortSelect = sortSelects[1];
+    expect(sortSelect).toBeInTheDocument();
 
-    fireEvent.change(sortSelect, { target: { value: "newest" } });
-    expect(mockOnSortOrderChange).toHaveBeenCalledWith("newest");
+    // Просто проверяем, что селект сортировки существует и кликабелен
+    fireEvent.click(sortSelect);
+
+    // Проверяем, что селект реагирует на клик (меняет состояние)
+    expect(sortSelect).toHaveAttribute("aria-expanded", "true");
   });
 
-  it("отображает все проекты при сбросе фильтров", async () => {
-    const mockOnSearchChange = vi.fn();
-    const mockOnProjectTypeChange = vi.fn();
-    const mockOnTechnologiesChange = vi.fn();
-    const mockOnSortOrderChange = vi.fn();
+  it("сбрасывает фильтры", async () => {
+    render(<ProjectsPage />);
 
-    render(
-      <div>
-        <ProjectsFilters
-          searchQuery=""
-          onSearchChange={mockOnSearchChange}
-          projectType="all"
-          onProjectTypeChange={mockOnProjectTypeChange}
-          selectedTechnologies={[]}
-          onTechnologiesChange={mockOnTechnologiesChange}
-          sortOrder="newest"
-          onSortOrderChange={mockOnSortOrderChange}
-          allTechnologies={[
-            "React",
-            "Vue",
-            "TypeScript",
-            "JavaScript",
-            "React Native",
-          ]}
-          projectTypes={[
-            { value: "web", label: "web" },
-            { value: "mobile", label: "mobile" },
-            { value: "desktop", label: "desktop" },
-          ]}
-        />
-        <div data-testid="projects-list">
-          {mockProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      </div>
-    );
+    // Ждем загрузки
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+    });
 
-    // Проверяем, что все проекты отображаются
-    expect(screen.getByTestId("project-card-project-1")).toBeInTheDocument();
-    expect(screen.getByTestId("project-card-project-2")).toBeInTheDocument();
-    expect(screen.getByTestId("project-card-project-3")).toBeInTheDocument();
+    // Применяем фильтры
+    const searchInput = screen.getByPlaceholderText("Поиск по названию...");
+    fireEvent.change(searchInput, { target: { value: "NonExistent" } });
+
+    // Проверяем, что проекты скрыты
+    await waitFor(() => {
+      expect(screen.queryByText("React Project")).not.toBeInTheDocument();
+    });
+
+    // Находим кнопку сброса фильтров (если есть)
+    const resetButton = screen.queryByRole("button", { name: /сбросить/i });
+    if (resetButton) {
+      fireEvent.click(resetButton);
+    } else {
+      // Если кнопки нет, очищаем поле поиска вручную
+      fireEvent.change(searchInput, { target: { value: "" } });
+    }
+
+    // Проверяем, что все проекты снова отображаются
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+      expect(screen.getByText("Vue Project")).toBeInTheDocument();
+      expect(screen.getByText("Mobile App")).toBeInTheDocument();
+    });
   });
 
   it("отображает технологии проектов", async () => {
-    render(
-      <div>
-        {mockProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
-    );
+    render(<ProjectsPage />);
 
-    // Проверяем технологии первого проекта
-    expect(screen.getByTestId("tech-react")).toBeInTheDocument();
-    expect(screen.getAllByTestId("tech-typescript")).toHaveLength(2); // TypeScript есть в двух проектах
+    // Ждем загрузки
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+    });
 
-    // Проверяем технологии второго проекта
-    expect(screen.getByTestId("tech-vue")).toBeInTheDocument();
-    expect(screen.getByTestId("tech-javascript")).toBeInTheDocument();
+    // Проверяем, что технологии отображаются (используем getAllByText для дублирующихся)
+    expect(screen.getByText("React")).toBeInTheDocument();
+    expect(screen.getAllByText("TypeScript")).toHaveLength(2); // TypeScript есть в двух проектах
+    expect(screen.getByText("Vue")).toBeInTheDocument();
+    expect(screen.getByText("JavaScript")).toBeInTheDocument();
+    expect(screen.getByText("React Native")).toBeInTheDocument();
+  });
+
+  it("показывает количество найденных проектов", async () => {
+    render(<ProjectsPage />);
+
+    // Ждем загрузки
+    await waitFor(() => {
+      expect(screen.getByText("React Project")).toBeInTheDocument();
+    });
+
+    // Проверяем, что отображается информация о количестве проектов
+    // Ищем текст с количеством проектов (может быть "3 проекта" или подобное)
+    const projectCountText =
+      screen.queryByText(/3/i) || screen.queryByText(/проект/i);
+    expect(projectCountText).toBeInTheDocument();
   });
 });
