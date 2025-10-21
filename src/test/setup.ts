@@ -26,8 +26,8 @@ const mockRouter = {
 };
 
 const mockSearchParams = new URLSearchParams();
-const mockPathname = "/";
-const mockParams = {};
+let mockPathname = "/";
+const mockParams: Record<string, string> = {};
 
 vi.mock("next/navigation", () => ({
   useRouter: () => mockRouter,
@@ -45,19 +45,25 @@ export { mockRouter, mockSearchParams, mockPathname, mockParams };
 // Утилиты для сброса моков между тестами
 export const resetNavigationMocks = () => {
   vi.clearAllMocks();
+  // Сбрасываем pathname к значению по умолчанию
+  mockPathname = "/";
   // Очищаем URLSearchParams через удаление всех ключей
   Array.from(mockSearchParams.keys()).forEach((key) => {
     mockSearchParams.delete(key);
   });
-  Object.assign(mockParams, {});
+  // Очищаем mockParams
+  Object.keys(mockParams).forEach((key) => delete mockParams[key]);
 };
 
 // Утилиты для настройки моков в тестах
 export const setMockPathname = (pathname: string) => {
-  Object.assign(mockPathname, pathname);
+  mockPathname = pathname;
 };
 
 export const setMockParams = (params: Record<string, string>) => {
+  // Очищаем существующие ключи
+  Object.keys(mockParams).forEach((key) => delete mockParams[key]);
+  // Добавляем новые ключи
   Object.assign(mockParams, params);
 };
 
