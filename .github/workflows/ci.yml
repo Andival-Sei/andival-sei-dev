@@ -107,9 +107,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
@@ -117,6 +114,9 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-playwright-
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Run E2E tests
         run: pnpm test:e2e

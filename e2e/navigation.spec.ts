@@ -22,28 +22,28 @@ test.describe("Навигация по сайту", () => {
     await page.click('a[href="/projects"]');
 
     // Проверяем URL и заголовок
-    await expect(page).toHaveURL("/projects");
+    await expect(page).toHaveURL(/\/projects$/);
     await expect(page).toHaveTitle(/Проекты/);
   });
 
   test('должна переходить на страницу "О себе"', async ({ page }) => {
     await page.click('a[href="/about"]');
 
-    await expect(page).toHaveURL("/about");
+    await expect(page).toHaveURL(/\/about$/);
     await expect(page).toHaveTitle(/Обо мне/);
   });
 
   test("должна переходить на страницу контактов", async ({ page }) => {
     await page.click('a[href="/contact"]');
 
-    await expect(page).toHaveURL("/contact");
+    await expect(page).toHaveURL(/\/contact$/);
     await expect(page).toHaveTitle(/Контакты/);
   });
 
   test("должна переходить на страницу лаборатории", async ({ page }) => {
     await page.click('a[href="/lab"]');
 
-    await expect(page).toHaveURL("/lab");
+    await expect(page).toHaveURL(/\/lab$/);
     await expect(page).toHaveTitle(/Лаборатория/);
   });
 
