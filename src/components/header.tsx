@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -104,6 +105,7 @@ export function Header() {
               >
                 <SheetHeader>
                   <SheetTitle>Навигация</SheetTitle>
+                  <SheetDescription>Основные разделы сайта</SheetDescription>
                 </SheetHeader>
                 <nav className="mt-8 flex flex-col gap-4 px-4">
                   {navLinks.map((link) => (

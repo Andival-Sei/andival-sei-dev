@@ -19,7 +19,10 @@ describe("Sheet", () => {
       const { container } = render(
         <Sheet>
           <SheetTrigger>Open</SheetTrigger>
-          <SheetContent>Content</SheetContent>
+          <SheetContent>
+            <SheetDescription>Test description</SheetDescription>
+            Content
+          </SheetContent>
         </Sheet>
       );
       expect(container).toBeInTheDocument();
@@ -29,7 +32,10 @@ describe("Sheet", () => {
       render(
         <Sheet>
           <SheetTrigger>Open Sheet</SheetTrigger>
-          <SheetContent>Content</SheetContent>
+          <SheetContent>
+            <SheetDescription>Test description</SheetDescription>
+            Content
+          </SheetContent>
         </Sheet>
       );
       expect(screen.getByText("Open Sheet")).toBeInTheDocument();
@@ -39,7 +45,10 @@ describe("Sheet", () => {
       render(
         <Sheet>
           <SheetTrigger>Open</SheetTrigger>
-          <SheetContent>Sheet Content</SheetContent>
+          <SheetContent>
+            <SheetDescription>Test description</SheetDescription>
+            Sheet Content
+          </SheetContent>
         </Sheet>
       );
       // Content не должен быть виден пока sheet не открыт
@@ -55,6 +64,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open Sheet</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Sheet Content
           </SheetContent>
         </Sheet>
@@ -74,6 +84,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Content
           </SheetContent>
         </Sheet>
@@ -98,6 +109,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Controlled Content
           </SheetContent>
         </Sheet>
@@ -111,6 +123,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Controlled Content
           </SheetContent>
         </Sheet>
@@ -129,6 +142,7 @@ describe("Sheet", () => {
           <SheetContent>
             <SheetHeader>
               <SheetTitle>Header Title</SheetTitle>
+              <SheetDescription>Test description</SheetDescription>
             </SheetHeader>
           </SheetContent>
         </Sheet>
@@ -145,6 +159,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>My Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
           </SheetContent>
         </Sheet>
       );
@@ -176,6 +191,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             <SheetFooter>
               <button>Cancel</button>
               <button>Save</button>
@@ -196,6 +212,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             <SheetClose>Custom Close</SheetClose>
           </SheetContent>
         </Sheet>
@@ -214,6 +231,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent side="right">
             <SheetTitle>Right Side</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Right Content
           </SheetContent>
         </Sheet>
@@ -233,6 +251,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent side="left">
             <SheetTitle>Left Side</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Left Content
           </SheetContent>
         </Sheet>
@@ -251,6 +270,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent side="top">
             <SheetTitle>Top Side</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Top Content
           </SheetContent>
         </Sheet>
@@ -269,6 +289,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent side="bottom">
             <SheetTitle>Bottom Side</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Bottom Content
           </SheetContent>
         </Sheet>
@@ -289,6 +310,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Content
           </SheetContent>
         </Sheet>
@@ -310,6 +332,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Content
           </SheetContent>
         </Sheet>
@@ -327,6 +350,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Accessible Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
           </SheetContent>
         </Sheet>
       );
@@ -347,6 +371,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
           </SheetContent>
         </Sheet>
       );
@@ -365,6 +390,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             <SheetHeader data-testid="sheet-header">Header</SheetHeader>
           </SheetContent>
         </Sheet>
@@ -384,6 +410,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent>
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             <SheetFooter data-testid="sheet-footer">Footer</SheetFooter>
           </SheetContent>
         </Sheet>
@@ -404,6 +431,7 @@ describe("Sheet", () => {
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent className="custom-class">
             <SheetTitle>Title</SheetTitle>
+            <SheetDescription>Test description</SheetDescription>
             Content
           </SheetContent>
         </Sheet>
