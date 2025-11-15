@@ -5,7 +5,7 @@ module.exports = {
     "subject-case": [0], // Отключаем проверку регистра для поддержки русского языка
     "subject-empty": [2, "never"],
     "subject-full-stop": [2, "never", "."],
-    "subject-max-length": [2, "always", 50],
+    "subject-max-length": [2, "always", 72],
     "subject-min-length": [2, "always", 10],
 
     // Стандартные правила для типов коммитов
